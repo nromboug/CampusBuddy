@@ -1,0 +1,12 @@
+{
+  "name": "campusbuddy_server",
+  "version": "1.0.0",
+  "description": "This is the backend server for the Campus buddy app. Provides an API for the React client.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm app.js"
+  },
+  "author": "Noah Rombough, Cindy Tran, Hasumi Tanemori",
+  "license": "ISC"
+}
