@@ -14,15 +14,26 @@
 }
 
 .App-header {
-    background-color: #265e2d;
+    background-color: #e2e2e2;
     display: flex;
 
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+    font-size: 30px;
+    color: rgb(24, 0, 88);
     padding: 10px;
+    box-shadow: -1px 10px 20px rgb(181, 181, 181);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.title-bar {
+    display: flex;
+    width:95%;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    justify-content: space-between;
 }
 
 .App-link {
@@ -42,18 +53,31 @@
 .nav-link {
     font-size: calc(15px + 1vmin);
     text-decoration: none;
-    margin: 10px;
-    color: #ffffff;
+    margin: 30px;
 }
 
 .nav-link:hover {
-    color: #a1a1a1;
     font-weight: bold;
 }
 
 h1 {
-    width: 30vw;
     margin: 20px;
-    color: #ffffff;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.avatar {
+    width: 'auto';
+}
+
+.empty-div {
+    width: 4%;
+}
+
+.prof-stuff {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#hamburger {
+    margin: 10px;
 }

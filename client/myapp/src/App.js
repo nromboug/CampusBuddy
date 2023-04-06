@@ -1,5 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
+import Avatar from '@mui/material/Avatar'
+import noPfp from './imgs/blank-profile-picture.jpg'
+import MenuIcon from '@mui/icons-material/Menu';
+
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
 
@@ -8,9 +12,21 @@ function App() {
         <Router>
             <div className="App">
                 <header className="App-header">
-                    <h1>
-                        Campus Buddy
-                    </h1>
+                    <div className='title-bar'>
+                        <div className='prof-stuff'>
+                        <Avatar className='avatar' src={noPfp} />
+                        <MenuIcon id='hamburger'/>
+                        </div>
+                        
+                        
+                        <h1>
+                            Campus Buddy
+                        </h1>
+                        <div className='empty-div'></div>
+                    </div>
+
+
+
                     <div>
                         <Link className='nav-link' to='/'>
                             My Dashboard
