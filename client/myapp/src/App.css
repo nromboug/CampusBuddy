@@ -78,6 +78,6 @@ h1 {
     align-items: center;
 }
 
-#hamburger {
-    margin: 10px;
+#basic-button {
+    color: rgb(24, 0, 88)
 }

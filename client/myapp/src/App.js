@@ -2,7 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 import Avatar from '@mui/material/Avatar'
 import noPfp from './imgs/blank-profile-picture.jpg'
-import MenuIcon from '@mui/icons-material/Menu';
+
+
+import BasicMenu from './components/menu';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
@@ -15,7 +17,7 @@ function App() {
                     <div className='title-bar'>
                         <div className='prof-stuff'>
                         <Avatar className='avatar' src={noPfp} />
-                        <MenuIcon id='hamburger'/>
+                        <BasicMenu />
                         </div>
                         
                         
