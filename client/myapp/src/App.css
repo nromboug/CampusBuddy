@@ -57,7 +57,7 @@
 }
 
 .nav-link:hover {
-    font-weight: bold;
+    color: red;
 }
 
 h1 {
