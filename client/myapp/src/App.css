@@ -81,3 +81,11 @@ h1 {
 #basic-button {
     color: rgb(24, 0, 88)
 }
+
+.userData-form {
+    padding: 30px;
+}
+
+.text-field {
+    margin: 50px;
+}
