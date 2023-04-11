@@ -1,6 +1,12 @@
-import express from 'express';
+const express = require('express');
 const app = express();
-import session from 'express-session';
-//import configRoutes from './routes/index.js';
+const session = require('express-session');
+const configRoutes = require('./routes/index.js');
 
-app.use(express.json());
+configRoutes(app);
+
+app.listen(3001, () => {
+    console.log("We've now got a server!");
+    console.log('Your routes will be running on http://localhost:3001');
+  });
+  
