@@ -5,6 +5,7 @@ import noPfp from './imgs/blank-profile-picture.jpg'
 
 
 import BasicMenu from './components/menu';
+import Dashboard from './components/dashboard';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
@@ -30,17 +31,17 @@ function App() {
 
 
                     <div>
-                        <Link className='nav-link' to='/'>
-                            My Dashboard
-                        </Link>
-                        <Link className='nav-link' to='/'>
+                        <Link className='nav-link' to='/dashboard'>
                             My Dashboard
                         </Link>
                     </div>
                 </header>
-                <body>
-                    This body
-                </body>
+                <div className='App-body'>
+                    <Routes>
+                        <Route path='/' element={<></>} />
+                        <Route path='/dashboard' element={<Dashboard />} />
+                    </Routes>
+                </div>
             </div>
         </Router>
 
