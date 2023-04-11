@@ -7,6 +7,7 @@ import noPfp from './imgs/blank-profile-picture.jpg'
 import BasicMenu from './components/menu';
 
 import Login from './components/login';
+import Signup from './components/signup';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
@@ -41,7 +42,7 @@ function App() {
                     </div>
                 </header>
                 <div className='App-body'>
-                    <Login />
+                    <Signup />
                 </div>
 
             </div>
