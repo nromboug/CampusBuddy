@@ -5,7 +5,13 @@ router
     .route('/:id')
     .get(async (req, res) => {
         res.json('test')
-    });
+    })
+
+router
+    .route('/')
+    .post(async (req, res) => {
+        
+    })
 
 
 
