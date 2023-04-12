@@ -1,8 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
 import Avatar from '@mui/material/Avatar'
 import noPfp from './imgs/blank-profile-picture.jpg'
 import MenuIcon from '@mui/icons-material/Menu';
+
+import Home from './components/Home';
+import SignUp from './components/SignUp';
+import Login from './components/Login';
+import Profile from './components/Profile';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
@@ -17,28 +21,36 @@ function App() {
                         <Avatar className='avatar' src={noPfp} />
                         <MenuIcon id='hamburger'/>
                         </div>
-                        
-                        
                         <h1>
                             Campus Buddy
                         </h1>
                         <div className='empty-div'></div>
                     </div>
-
-
-
                     <div>
                         <Link className='nav-link' to='/'>
-                            My Dashboard
+                            Home
                         </Link>
-                        <Link className='nav-link' to='/'>
-                            My Dashboard
+                        <Link className='nav-link' to='/signup'>
+                            Sign Up
+                        </Link>
+                        <Link className='nav-link' to='/login'>
+                            Log In
+                        </Link>
+                        <Link className='nav-link' to='/profile'>
+                            Profile
                         </Link>
                     </div>
                 </header>
-                <body>
-                    This body
-                </body>
+                <br />
+                <br />
+                <div className="App-body">
+                    <Routes>
+                        <Route exact path='/' element={<Home />}/>
+                        <Route exact path='/signup' element={<SignUp />}/>
+                        <Route exact path='/login' element={<Login />}/>
+                        <Route exact path='/profile' element={<Profile />}/>
+                    </Routes>
+                </div>
             </div>
         </Router>
 

@@ -81,3 +81,10 @@ h1 {
 #hamburger {
     margin: 10px;
 }
+
+.show-body {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
