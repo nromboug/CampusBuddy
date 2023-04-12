@@ -11,8 +11,9 @@ import {
 
 import GoogleIcon from '@mui/icons-material/Google';
 
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
 const auth = getAuth();
+
 
 const Signup = () => {
 
@@ -22,7 +23,20 @@ const Signup = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(document.getElementById('username').value)
+        console.log("signup")
+        createUserWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value)
+            .then((userCredential) => {
+                console.log("signed up")
+                // Signed in 
+                const user = userCredential.user;
+                // ...
+            })
+            .catch((error) => {
+                console.log(error)
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+            });
     };
 
     const signInWithGoogle = () => {
@@ -49,7 +63,7 @@ const Signup = () => {
     return (
         <div>
             <h2>
-                Login
+                Signup
             </h2>
             <Box
                 component="form"
@@ -64,8 +78,8 @@ const Signup = () => {
                 <div>
                     <TextField
                         required
-                        id="username"
-                        label="Username"
+                        id="email"
+                        label="Email"
                         className='text-field'
                     />
                     <TextField
