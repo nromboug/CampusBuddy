@@ -7,10 +7,12 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import AddSession from './AddSession';
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [sessions, setSessions] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     //let {data} = axios.get('/user/sessions'); ?
@@ -44,6 +46,14 @@ export default function Schedule() {
     setSelectedDate(nextDate);
   };
 
+  const handleOpenAddModal = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseModals = () => {
+    setShowAddModal(false);
+  };
+
   const filteredSessions = sessions.filter(
     (session) => session.start.toDateString() === selectedDate.toDateString()
   );
@@ -71,6 +81,7 @@ export default function Schedule() {
                 Sessions
               </Typography>
               <Button
+                onClick={handleOpenAddModal}
               >
                 Add Session
               </Button>
@@ -103,6 +114,12 @@ export default function Schedule() {
         </Grid>
       </CardContent>
     </Card>
+    {showAddModal && showAddModal && (
+      <AddSession
+        isOpen={showAddModal}
+        handleClose={handleCloseModals}
+      />
+    )}
     </div>
   );
 }
