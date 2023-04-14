@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import { List, ListItem, ListItemIcon, ListItemButton, Checkbox, ListItemText, TextField, Button, Card, CardContent } from '@mui/material';
+import { List, ListItem, ListItemIcon, ListItemButton, Checkbox, ListItemText, TextField, Button, Card, CardContent, Box, Typography } from '@mui/material';
+import AddTodo from './AddTodo';
 
 export default function Todo() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
   const [checked, setChecked] = React.useState([0]);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     //let {data} = axios.get('/user/todos'); ?
+    //example; replace when server is implemented
     setTodos([{text: 'Task 1', completed: false}, {text: 'Task 2', completed: false}, {text: 'Task 3', completed: false}]);
   }, []);
 
@@ -31,26 +34,28 @@ export default function Todo() {
     //axios.post('/todos', {text: newTodo, completed: false}); ?
     setNewTodo('');
   };
+  const handleOpenAddModal = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseModals = () => {
+    setShowAddModal(false);
+  };
 
   return (
     <div style={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}>
       <Card>
         <CardContent>
-          <form style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: "5px" }} onSubmit={handleSubmit}>
-            <TextField
-              label="Add todo"
-              value={newTodo}
-              onChange={(e) => setNewTodo(e.target.value)}
-              variant="outlined"
-            />
+        <Box display="flex" alignItems="center" mb={2}>
+            <Typography variant="h6" component="h3" flexGrow={1}>
+              To-Do:
+            </Typography>
             <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-            >
-              Add
+                onClick={handleOpenAddModal}
+              >
+              Add Todo
             </Button>
-          </form>
+          </Box>
           <List >
           {todos.map((todo, index) => (
             <ListItem key={index}>
@@ -70,7 +75,12 @@ export default function Todo() {
           </List>
         </CardContent>
       </Card>
-      
+      {showAddModal && showAddModal && (
+      <AddTodo
+        isOpen={showAddModal}
+        handleClose={handleCloseModals}
+      />
+    )}
     </div>
   );
 }

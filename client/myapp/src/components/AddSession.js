@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ReactModal from 'react-modal';
-import { TextField, Checkbox, Button, Modal, Typography }  from '@mui/material';
+import { TextField, Checkbox, Button, FormControlLabel, Typography }  from '@mui/material';
 
 export default function AddSession({ isOpen, handleClose }) {
   const [name, setName] = useState('');
@@ -57,13 +57,15 @@ export default function AddSession({ isOpen, handleClose }) {
             shrink: true,
           }}
         />
-        <Checkbox
-          checked={isPrivate}
-          onChange={(e) => setPrivate(e.target.checked)}
-          inputProps={{ "aria-label": "controlled" }}
-        />
+        <FormControlLabel
+          control={<Checkbox
+            checked={isPrivate}
+            onChange={(e) => setPrivate(e.target.checked)}
+            inputProps={{ "aria-label": "controlled" }}
+          />}
+          label="Is it Private?" />
         {isPrivate ? 
-          null
+          null // set up an invite link? 
         : <span>Anyone can RSVP to the event.</span>}
         <div class="buttons">
           <Button type="submit" variant="contained">
