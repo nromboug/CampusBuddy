@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Avatar from '@mui/material/Avatar'
 import noPfp from './imgs/blank-profile-picture.jpg'
@@ -8,6 +7,9 @@ import BasicMenu from './components/menu';
 
 import Login from './components/login';
 import Signup from './components/signup';
+
+import Home from './components/Home';
+import Profile from './components/Profile';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
@@ -29,22 +31,31 @@ function App() {
                         </h1>
                         <div className='empty-div'></div>
                     </div>
-
-
-
                     <div>
                         <Link className='nav-link' to='/'>
-                            My Dashboard
+                            Home
                         </Link>
-                        <Link className='nav-link' to='/'>
-                            My Dashboard
+                        <Link className='nav-link' to='/signup'>
+                            Sign Up
+                        </Link>
+                        <Link className='nav-link' to='/login'>
+                            Log In
+                        </Link>
+                        <Link className='nav-link' to='/profile'>
+                            Profile
                         </Link>
                     </div>
                 </header>
-                <div className='App-body'>
-                    <Signup />
+                <br />
+                <br />
+                <div className="App-body">
+                    <Routes>
+                        <Route exact path='/' element={<Home />}/>
+                        <Route exact path='/signup' element={<SignUp />}/>
+                        <Route exact path='/login' element={<Login />}/>
+                        <Route exact path='/profile' element={<Profile />}/>
+                    </Routes>
                 </div>
-
             </div>
             
         </Router>

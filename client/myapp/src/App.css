@@ -78,14 +78,13 @@ h1 {
     align-items: center;
 }
 
-#basic-button {
-    color: rgb(24, 0, 88)
+#hamburger {
+    margin: 10px;
 }
 
-.userData-form {
-    padding: 30px;
-}
-
-.text-field {
-    margin: 50px;
+.show-body {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
 }
