@@ -5,6 +5,8 @@ import noPfp from './imgs/blank-profile-picture.jpg'
 
 
 import BasicMenu from './components/menu';
+import Login from './components/login';
+import Signup from './components/signup';
 import Dashboard from './components/dashboard';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
@@ -17,11 +19,11 @@ function App() {
                 <header className="App-header">
                     <div className='title-bar'>
                         <div className='prof-stuff'>
-                        <Avatar className='avatar' src={noPfp} />
-                        <BasicMenu />
+                            <Avatar className='avatar' src={noPfp} />
+                            <BasicMenu />
                         </div>
-                        
-                        
+
+
                         <h1>
                             Campus Buddy
                         </h1>
@@ -40,9 +42,11 @@ function App() {
                     <Routes>
                         <Route path='/' element={<></>} />
                         <Route path='/dashboard' element={<Dashboard />} />
+                        <Route path='/signup' element={<Signup />} />
                     </Routes>
                 </div>
             </div>
+            
         </Router>
 
     );

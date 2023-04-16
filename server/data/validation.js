@@ -1,0 +1,6 @@
+const checkSignupData = (
+    username,
+    password,
+) => {
+
+}

@@ -57,7 +57,7 @@
 }
 
 .nav-link:hover {
-    font-weight: bold;
+    color: red;
 }
 
 h1 {
@@ -80,4 +80,12 @@ h1 {
 
 #basic-button {
     color: rgb(24, 0, 88)
+}
+
+.userData-form {
+    padding: 30px;
+}
+
+.text-field {
+    margin: 50px;
 }
