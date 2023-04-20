@@ -1,7 +1,7 @@
 import '../App.css'
 
 import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 //import axios from 'axios'
 import {
     Box,
@@ -16,6 +16,8 @@ const auth = getAuth();
 
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const [error, setError] = useState('');
 
     const provider = new GoogleAuthProvider();
     provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -29,12 +31,16 @@ const Signup = () => {
                 console.log("signed up")
                 // Signed in 
                 const user = userCredential.user;
+                console.log(user);
                 // ...
+                navigate('/');
             })
             .catch((error) => {
+
                 console.log(error)
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                setError(errorMessage);
                 // ..
             });
     };
@@ -48,9 +54,11 @@ const Signup = () => {
                 // The signed-in user info.
                 const user = result.user;
                 console.log(user);
+                navigate('/');
             })
             .catch((error) => {
                 // Handle Errors here.
+                console.log(error);
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 // The email of the user's account used.
@@ -90,7 +98,11 @@ const Signup = () => {
                     />
                 </div>
                 <br />
+                {error ? <p className='error'>{error}</p> : null}
 
+                <Link className='nav-link' to='/login'>
+                    Back to Login
+                </Link>
                 <Button variant='contained' type='submit'>
                     Submit
                 </Button>

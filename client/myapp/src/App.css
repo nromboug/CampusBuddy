@@ -88,3 +88,7 @@ h1 {
 	margin-right: auto;
 	width: 50%;
 }
+
+.error {
+    color: red;
+}

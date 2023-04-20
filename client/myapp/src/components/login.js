@@ -47,8 +47,11 @@ const Login = () => {
                 <br />
 
                 <Button variant='contained' type='submit'>
-                    Submit
+                    Login
                 </Button>
+                <Link className='nav-link' to='/signup'>
+                    Sign Up
+                </Link>
             </Box>
 
         </div>
