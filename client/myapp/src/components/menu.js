@@ -47,7 +47,7 @@ export default function BasicMenu() {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleLogin} value={1}>Log in</MenuItem>
+                <MenuItem onClick={handleLogin}>Log in</MenuItem>
             </Menu>
         </div>
     );
