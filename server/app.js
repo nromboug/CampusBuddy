@@ -6,6 +6,8 @@ const cors = require('cors');
 
 app.use(cors());
 
+app.use(express.json());
+
 configRoutes(app);
 
 app.listen(3001, () => {
