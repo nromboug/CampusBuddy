@@ -7,7 +7,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import AddSession from './AddSession';
+import AddSession from './modals/AddSession';
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -24,7 +24,8 @@ export default function Schedule() {
       end: new Date("2023-04-15T10:00:00Z"),
       guests: ["user123", "user456"],
       host: "user123",
-      isPrivate: true
+      isPrivate: true,
+      password: "something"
     },
     {
       id: "session000",
@@ -33,7 +34,7 @@ export default function Schedule() {
       end: new Date("2023-04-15T10:00:00Z"),
       guests: ["user123", "user456"],
       host: "user123",
-      isPrivate: true
+      isPrivate: false
     }]);
   }, []);
 
@@ -104,7 +105,7 @@ export default function Schedule() {
                       Hosted by {session.host}
                     </Typography>
                     <Typography variant="body2" component="p">
-                      {session.isPrivate ? 'Private' : 'Public'} session with {session.guests.length} participants: {session.guests.join(', ')}
+                      {session.isPrivate ? 'Private' : 'Public'} session with {session.guests.length} participants
                     </Typography>
                   </CardContent>
                 </Card>

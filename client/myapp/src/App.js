@@ -12,6 +12,7 @@ import Signup from './components/signup';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Dashboard from './components/dashboard';
+import Sessions from './components/sessions';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
@@ -52,6 +53,9 @@ function App() {
                         <Link className='nav-link' to='/dashboard'>
                             My Dashboard
                         </Link>
+                        <Link className='nav-link' to='/sessions'>
+                            Browse Sessions
+                        </Link>
                     </div>
                 </header>
                 <br />
@@ -60,6 +64,7 @@ function App() {
                     <Routes>
                         <Route exact path='/' element={<Home />}/>
                         <Route path='/dashboard' element={<Dashboard />} />
+                        <Route path='/sessions' element={<Sessions />} />
                         <Route exact path='/signup' element={<Signup />}/>
                         <Route exact path='/login' element={<Login />}/>
                         <Route exact path='/profile' element={<Profile />}/>
