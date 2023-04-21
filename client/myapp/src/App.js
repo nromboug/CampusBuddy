@@ -6,21 +6,31 @@ import noPfp from './imgs/blank-profile-picture.jpg'
 
 import BasicMenu from './components/menu';
 
+import Login from './components/login';
+import Signup from './components/signup';
+
+import Home from './components/Home';
+import Profile from './components/Profile';
+import Dashboard from './components/dashboard';
+import AuthComponent from './components/AuthComponent';
+
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
+import { useState } from 'react';
 
 
 function App() {
+    const [userInfo, setUserInfo] = useState();
     return (
         <Router>
             <div className="App">
                 <header className="App-header">
                     <div className='title-bar'>
                         <div className='prof-stuff'>
-                        <Avatar className='avatar' src={noPfp} />
-                        <BasicMenu />
+                            <Avatar className='avatar' src={noPfp} />
+                            <BasicMenu />
                         </div>
-                        
-                        
+
+
                         <h1>
                             Campus Buddy
                         </h1>
@@ -30,18 +40,33 @@ function App() {
 
 
                     <div>
-                        <Link className='nav-link' to='/'>
-                            My Dashboard
+                        <Link className='nav-link' to='/home'>
+                            Home
                         </Link>
-                        <Link className='nav-link' to='/'>
+                        <Link className='nav-link' to='/profile'>
+                            Profile
+                        </Link>
+                        <Link className='nav-link' to='/dashboard'>
                             My Dashboard
                         </Link>
                     </div>
                 </header>
-                <body>
-                    This body
-                </body>
+                <br />
+                <br />
+                <div className="App-body">
+                    <Routes>
+                        <Route exact path='/home' element={<Home user={userInfo}/>} />
+                        <Route exact path='/signup' element={<Signup user={userInfo}/>} />
+                        <Route exact path='/login' element={<Login user={userInfo}/>} />
+                        <Route path='/' element={<AuthComponent user={userInfo}/>}>
+                            <Route path='dashboard' element={<Dashboard user={userInfo}/>} />
+                            <Route path='profile' element={<Profile user={userInfo}/>} />
+                        </Route>
+                    </Routes>
+                </div>
+
             </div>
+
         </Router>
 
     );
