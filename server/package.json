@@ -5,8 +5,15 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm app.js"
+    "start": "node app.js"
   },
   "author": "Noah Rombough, Cindy Tran, Hasumi Tanemori",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "firebase-admin": "^11.7.0",
+    "mongodb": "^5.2.0"
+  }
 }

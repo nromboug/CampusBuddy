@@ -1,43 +1,53 @@
+import logo from './logo.svg';
 import './App.css';
 import Avatar from '@mui/material/Avatar'
 import noPfp from './imgs/blank-profile-picture.jpg'
-import MenuIcon from '@mui/icons-material/Menu';
+
+
+import BasicMenu from './components/menu';
+
+import Login from './components/login';
+import Signup from './components/signup';
 
 import Home from './components/Home';
-import SignUp from './components/SignUp';
-import Login from './components/Login';
 import Profile from './components/Profile';
+import Dashboard from './components/dashboard';
+import AuthComponent from './components/AuthComponent';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
+import { useState } from 'react';
 
 
 function App() {
+    const [userInfo, setUserInfo] = useState();
     return (
         <Router>
             <div className="App">
                 <header className="App-header">
                     <div className='title-bar'>
                         <div className='prof-stuff'>
-                        <Avatar className='avatar' src={noPfp} />
-                        <MenuIcon id='hamburger'/>
+                            <Avatar className='avatar' src={noPfp} />
+                            <BasicMenu />
                         </div>
+
+
                         <h1>
                             Campus Buddy
                         </h1>
                         <div className='empty-div'></div>
                     </div>
+
+
+
                     <div>
-                        <Link className='nav-link' to='/'>
+                        <Link className='nav-link' to='/home'>
                             Home
-                        </Link>
-                        <Link className='nav-link' to='/signup'>
-                            Sign Up
-                        </Link>
-                        <Link className='nav-link' to='/login'>
-                            Log In
                         </Link>
                         <Link className='nav-link' to='/profile'>
                             Profile
+                        </Link>
+                        <Link className='nav-link' to='/dashboard'>
+                            My Dashboard
                         </Link>
                     </div>
                 </header>
@@ -45,13 +55,18 @@ function App() {
                 <br />
                 <div className="App-body">
                     <Routes>
-                        <Route exact path='/' element={<Home />}/>
-                        <Route exact path='/signup' element={<SignUp />}/>
-                        <Route exact path='/login' element={<Login />}/>
-                        <Route exact path='/profile' element={<Profile />}/>
+                        <Route exact path='/home' element={<Home user={userInfo}/>} />
+                        <Route exact path='/signup' element={<Signup user={userInfo}/>} />
+                        <Route exact path='/login' element={<Login user={userInfo}/>} />
+                        <Route path='/' element={<AuthComponent user={userInfo}/>}>
+                            <Route path='dashboard' element={<Dashboard user={userInfo}/>} />
+                            <Route path='profile' element={<Profile user={userInfo}/>} />
+                        </Route>
                     </Routes>
                 </div>
+
             </div>
+
         </Router>
 
     );

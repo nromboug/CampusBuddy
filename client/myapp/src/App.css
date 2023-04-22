@@ -57,7 +57,7 @@
 }
 
 .nav-link:hover {
-    font-weight: bold;
+    color: red;
 }
 
 h1 {
@@ -87,4 +87,8 @@ h1 {
 	margin-left: auto;
 	margin-right: auto;
 	width: 50%;
+}
+
+.error {
+    color: red;
 }
