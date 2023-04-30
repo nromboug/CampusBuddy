@@ -135,7 +135,7 @@ router
     try {
       const list = await sessionData.getAllSessions();
       
-      res.json(list.map(({_id, name}) => ({_id, name})));
+      res.json(list);
     } catch (e) {
       res.status(500).send(e);
     }
