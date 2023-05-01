@@ -6,13 +6,12 @@ const data=require('../data');
 const validation = require('../validation');
 const theusers=data.users;
 
-/*
+
 var serviceAccount = require("../adminKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
-*/
 
 router
     .route('/:id')
