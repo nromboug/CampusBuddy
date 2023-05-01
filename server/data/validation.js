@@ -1,6 +1,0 @@
-const checkSignupData = (
-    username,
-    password,
-) => {
-
-}
