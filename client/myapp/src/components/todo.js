@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { List, ListItem, ListItemIcon, ListItemButton, Checkbox, ListItemText, TextField, Button, Card, CardContent, Box, Typography } from '@mui/material';
-import AddTodo from './AddTodo';
+import AddTodo from './modals/AddTodo';
 
 export default function Todo() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = useState([0]);
   const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
