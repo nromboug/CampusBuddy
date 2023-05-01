@@ -26,3 +26,4 @@ client/myapp/.env
 
 server/node_modules
 client/myapp/.env
+server/adminKey.json

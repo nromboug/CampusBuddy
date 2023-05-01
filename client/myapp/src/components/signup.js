@@ -1,7 +1,7 @@
 import '../App.css'
-
+import axios from 'axios';
 import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 //import axios from 'axios'
 import {
     Box,
@@ -11,54 +11,57 @@ import {
 
 import GoogleIcon from '@mui/icons-material/Google';
 
-import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
-const auth = getAuth();
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const [error, setError] = useState('');
+    const [name, setName]=useState('');
+    const [email,setEmail]=useState('');
+    const [password,setPassword]=useState('');
+    const [username, setUsername]=useState('');
 
-    const provider = new GoogleAuthProvider();
-    provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
     const auth = getAuth();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("signup")
-        createUserWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value)
-            .then((userCredential) => {
-                console.log("signed up")
-                // Signed in 
+        console.log("signup");
+    
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const password2 = document.getElementById('password2').value;
+        const name = document.getElementById('name').value;
+        const username = document.getElementById('username').value;
+    
+        if (password === password2) {
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                console.log("signed up");
                 const user = userCredential.user;
-                // ...
-            })
-            .catch((error) => {
-                console.log(error)
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
-            });
-    };
-
-    const signInWithGoogle = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
-                const user = result.user;
                 console.log(user);
-            })
-            .catch((error) => {
-                // Handle Errors here.
+    
+                const postURL = "http://localhost:3001/users";
+    
+                try {
+                    console.log(await axios.post(postURL, { name: name, username: username, email: email, password: password }));
+                    console.log("inputted data");
+                } catch (e) {
+                    console.log(e);
+                }
+    
+                navigate('/');
+            } catch (error) {
+                console.log(error);
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-            });
-    };
+                setError(errorMessage);
+            }
+        } else {
+            throw "Error: Passwords do not match";
+        }
+    };    
 
     return (
         <div>
@@ -78,26 +81,49 @@ const Signup = () => {
                 <div>
                     <TextField
                         required
+                        id="name"
+                        label="Name"
+                        className='text-field'
+                    />
+                    <br/>
+                    <TextField
+                        required
+                        id="username"
+                        label="Username"
+                        className='text-field'
+                    />
+                    <br/>
+                    <TextField
+                        required
                         id="email"
                         label="Email"
                         className='text-field'
                     />
+                    <br/>
                     <TextField
                         required
                         id="password"
                         label="Password"
                         className='text-field'
                     />
+                    <br/>
+                    <TextField
+                        required
+                        id="password2"
+                        label="Retype Password"
+                        className='text-field'
+                    />
                 </div>
                 <br />
+                {error ? <p className='error'>{error}</p> : null}
 
+                <Link className='nav-link' to='/login'>
+                    Back to Login
+                </Link>
                 <Button variant='contained' type='submit'>
                     Submit
                 </Button>
             </Box>
-            <Button onClick={signInWithGoogle}>
-                <GoogleIcon />
-            </Button>
 
 
         </div>

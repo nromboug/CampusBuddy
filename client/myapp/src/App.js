@@ -12,12 +12,15 @@ import Signup from './components/signup';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Dashboard from './components/dashboard';
+import AuthComponent from './components/AuthComponent';
 import Sessions from './components/sessions';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
+import { useState } from 'react';
 
 
 function App() {
+    const [userInfo, setUserInfo] = useState();
     return (
         <Router>
             <div className="App">
@@ -38,14 +41,8 @@ function App() {
 
 
                     <div>
-                        <Link className='nav-link' to='/'>
+                        <Link className='nav-link' to='/home'>
                             Home
-                        </Link>
-                        <Link className='nav-link' to='/signup'>
-                            Sign Up
-                        </Link>
-                        <Link className='nav-link' to='/login'>
-                            Log In
                         </Link>
                         <Link className='nav-link' to='/profile'>
                             Profile
@@ -62,17 +59,19 @@ function App() {
                 <br />
                 <div className="App-body">
                     <Routes>
-                        <Route exact path='/' element={<Home />}/>
-                        <Route path='/dashboard' element={<Dashboard />} />
+                        <Route exact path='/home' element={<Home user={userInfo}/>} />
+                        <Route exact path='/signup' element={<Signup user={userInfo}/>} />
                         <Route path='/sessions' element={<Sessions />} />
-                        <Route exact path='/signup' element={<Signup />}/>
-                        <Route exact path='/login' element={<Login />}/>
-                        <Route exact path='/profile' element={<Profile />}/>
+                        <Route exact path='/login' element={<Login user={userInfo}/>} />
+                        <Route path='/' element={<AuthComponent user={userInfo}/>}>
+                            <Route path='dashboard' element={<Dashboard user={userInfo}/>} />
+                            <Route path='profile' element={<Profile user={userInfo}/>} />
+                        </Route>
                     </Routes>
                 </div>
 
             </div>
-            
+
         </Router>
 
     );
