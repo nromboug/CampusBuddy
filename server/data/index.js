@@ -1,6 +1,7 @@
+const sessionData = require('./sessions');
 const userData= require('./users');
 
-module.exports=
-{
-    users: userData,
+module.exports = {
+  sessions: sessionData,
+  users: userData,
 };

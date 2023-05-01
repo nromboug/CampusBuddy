@@ -13,6 +13,7 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import Dashboard from './components/dashboard';
 import AuthComponent from './components/AuthComponent';
+import Sessions from './components/sessions';
 
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 import { useState } from 'react';
@@ -49,6 +50,9 @@ function App() {
                         <Link className='nav-link' to='/dashboard'>
                             My Dashboard
                         </Link>
+                        <Link className='nav-link' to='/sessions'>
+                            Browse Sessions
+                        </Link>
                     </div>
                 </header>
                 <br />
@@ -57,6 +61,7 @@ function App() {
                     <Routes>
                         <Route exact path='/home' element={<Home user={userInfo}/>} />
                         <Route exact path='/signup' element={<Signup user={userInfo}/>} />
+                        <Route path='/sessions' element={<Sessions />} />
                         <Route exact path='/login' element={<Login user={userInfo}/>} />
                         <Route path='/' element={<AuthComponent user={userInfo}/>}>
                             <Route path='dashboard' element={<Dashboard user={userInfo}/>} />
