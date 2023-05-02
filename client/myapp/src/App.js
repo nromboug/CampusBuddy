@@ -61,11 +61,11 @@ function App() {
                     <Routes>
                         <Route exact path='/home' element={<Home user={userInfo}/>} />
                         <Route exact path='/signup' element={<Signup user={userInfo}/>} />
-                        <Route path='/sessions' element={<Sessions />} />
-                        <Route exact path='/login' element={<Login user={userInfo}/>} />
+                        <Route exact path='/login' element={<Login user={userInfo} setUserInfo={setUserInfo}/>} />
                         <Route path='/' element={<AuthComponent user={userInfo}/>}>
                             <Route path='dashboard' element={<Dashboard user={userInfo}/>} />
                             <Route path='profile' element={<Profile user={userInfo}/>} />
+                            <Route path='sessions' element={<Sessions />} />
                         </Route>
                     </Routes>
                 </div>

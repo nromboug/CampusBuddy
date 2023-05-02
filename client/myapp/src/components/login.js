@@ -13,13 +13,15 @@ import {
 import GoogleIcon from '@mui/icons-material/Google';
 
 import { signInWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+axios.defaults.withCredentials = true;
 const auth = getAuth();
 
-const Login = () => {
+const Login = (props) => {
     const [error, setError] = useState();
 
     const provider = new GoogleAuthProvider();
     provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+
 
 
     const handleSubmit = async (event) => {
@@ -30,17 +32,19 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                console.log(userCredential);
-                // ...
-                console.log(userCredential._tokenResponse.idToken)
+                // console.log(userCredential);
+                // // ...
+                // console.log(userCredential._tokenResponse.idToken)
                 axios.post('http://localhost:3001/users/login', {
                     idToken: userCredential._tokenResponse.idToken
                 })
                     .then(function (response) {
-                        console.log(response);
+                        const {data} = response;
+                        props.setUserInfo(data);
+                        console.log(data);
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        console.log('err',error);
                     });
 
 
@@ -50,28 +54,6 @@ const Login = () => {
                 const errorMessage = error.message;
                 console.log(errorMessage)
                 setError(true);
-            });
-    };
-
-    const signInWithGoogle = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                console.log(user);
-            })
-            .catch((error) => {
-                // Handle Errors here.
-                console.log(error);
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
             });
     };
 
@@ -113,9 +95,6 @@ const Login = () => {
                     Sign Up
                 </Link>
             </Box>
-            <Button onClick={signInWithGoogle}>
-                <GoogleIcon />
-            </Button>
 
         </div>
 
