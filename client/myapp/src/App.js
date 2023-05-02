@@ -20,7 +20,7 @@ import { useState } from 'react';
 
 
 function App() {
-    const [userInfo, setUserInfo] = useState();
+    const [userInfo, setUserInfo] = useState(undefined);
     return (
         <Router>
             <div className="App">
@@ -28,7 +28,7 @@ function App() {
                     <div className='title-bar'>
                         <div className='prof-stuff'>
                             <Avatar className='avatar' src={noPfp} />
-                            <BasicMenu />
+                            <BasicMenu user={userInfo} setUserInfo={setUserInfo}/>
                         </div>
 
 
@@ -65,7 +65,7 @@ function App() {
                         <Route path='/' element={<AuthComponent user={userInfo}/>}>
                             <Route path='dashboard' element={<Dashboard user={userInfo}/>} />
                             <Route path='profile' element={<Profile user={userInfo}/>} />
-                            <Route path='sessions' element={<Sessions />} />
+                            <Route path='sessions' element={<Sessions user={userInfo}/>} />
                         </Route>
                     </Routes>
                 </div>

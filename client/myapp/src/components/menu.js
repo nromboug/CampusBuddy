@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 
-export default function BasicMenu() {
+const BasicMenu = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const navigate = useNavigate();
     const open = Boolean(anchorEl);
@@ -24,6 +24,11 @@ export default function BasicMenu() {
     };
 
     const handleLogin = () => {
+        navigate('/login');
+    };
+
+    const handleLogout = () => {
+        props.setUserInfo(undefined);
         navigate('/login');
     };
 
@@ -47,8 +52,13 @@ export default function BasicMenu() {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleLogin}>Log in</MenuItem>
+                {!props.user && <MenuItem onClick={handleLogin}>Log in</MenuItem>}
+                {props.user && <MenuItem onClick={handleLogout}>Log Out</MenuItem>}
             </Menu>
         </div>
     );
+
+    
 }
+
+export default BasicMenu;
