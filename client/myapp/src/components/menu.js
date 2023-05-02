@@ -10,6 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const BasicMenu = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -28,8 +29,14 @@ const BasicMenu = (props) => {
     };
 
     const handleLogout = () => {
-        props.setUserInfo(undefined);
-        navigate('/login');
+        const func = async () => {
+            console.log('logout')
+            props.setUserInfo(undefined);
+            console.log(await axios.get('http://localhost:3001/users/logout'));
+            navigate('/login');
+        }
+
+        func().then();
     };
 
     return (

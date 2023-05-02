@@ -14,13 +14,6 @@ admin.initializeApp({
 });
 
 router
-    .route('/:id')
-    .get(async (req, res) => {
-        res.json('test')
-    })
-
-
-router
     .route('/login')
     .post(async (req, res) => {
         console.log('login');
@@ -31,7 +24,6 @@ router
             .then(function (decodedToken) {
                 uid = decodedToken.uid;
                 theusers.getUserById(uid).then(user => {
-                    console.log(user);
                     req.session.user = user;
                     req.session.save()
                     res.json(user);
@@ -40,7 +32,17 @@ router
             })
             .catch(function (error) {
                 console.log(error);
+                res.status(400).json({error: error})
             })
+    })
+
+router
+    .route('/logout')
+    .get(async (req, res) => {
+        console.log('logout')
+        req.session.destroy();
+        res.json({success: "logged out successfully."})
+        
     })
 
 router.post('/signup', async (req, res) => {
@@ -63,6 +65,11 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+router
+    .route('/:id')
+    .get(async (req, res) => {
+        res.json('test')
+    })
 
 
 module.exports = router
