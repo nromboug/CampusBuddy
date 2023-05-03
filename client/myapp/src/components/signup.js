@@ -39,13 +39,13 @@ const Signup = () => {
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 console.log("signed up");
-                const user = userCredential.user;
-                console.log(user);
+                const uid = userCredential.user.uid;
+                console.log(uid);
     
-                const postURL = "http://localhost:3001/users";
+                const postURL = "http://localhost:3001/users/signup";
     
                 try {
-                    console.log(await axios.post(postURL, { name: name, username: username, email: email, password: password }));
+                    console.log(await axios.post(postURL, {id: uid, name:name, username:username, email:email}));
                     console.log("inputted data");
                 } catch (e) {
                     console.log(e);

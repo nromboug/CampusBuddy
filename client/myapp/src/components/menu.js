@@ -10,8 +10,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-export default function BasicMenu() {
+const BasicMenu = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const navigate = useNavigate();
     const open = Boolean(anchorEl);
@@ -25,6 +26,17 @@ export default function BasicMenu() {
 
     const handleLogin = () => {
         navigate('/login');
+    };
+
+    const handleLogout = () => {
+        const func = async () => {
+            console.log('logout')
+            props.setUserInfo(undefined);
+            console.log(await axios.get('http://localhost:3001/users/logout'));
+            navigate('/login');
+        }
+
+        func().then();
     };
 
     return (
@@ -47,8 +59,13 @@ export default function BasicMenu() {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleLogin}>Log in</MenuItem>
+                {!props.user && <MenuItem onClick={handleLogin}>Log in</MenuItem>}
+                {props.user && <MenuItem onClick={handleLogout}>Log Out</MenuItem>}
             </Menu>
         </div>
     );
+
+    
 }
+
+export default BasicMenu;
