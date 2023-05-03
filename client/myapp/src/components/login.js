@@ -59,6 +59,10 @@ const Login = (props) => {
             });
     };
 
+    if (props.user) {
+        navigate('/');
+        return
+    }
     return (
         <div>
             <h2>
