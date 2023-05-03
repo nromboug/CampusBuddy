@@ -28,14 +28,34 @@ app.use(
     session({
         store: redisStore,
         resave: false, // required: force lightweight session keep alive (touch)
-        saveUninitialized: false, // recommended: only save session when data exists
+        saveUninitialized: true, // recommended: only save session when data exists
         secret: "secret phrase",
+        cookie: {
+            secure: false, // if true only transmit cookie over https
+            httpOnly: false, // if true prevent client side JS from reading the cookie 
+            maxAge: 1000 * 60 * 10 // session max age in miliseconds
+        }
+
     })
 )
 
-app.use(cors());
+app.use('/', (req, res, next) => {
+    if (req.session.user) {
+        console.log('in session!');
+    } else {
+        console.log('not in session');
+    }
+    next();
+})
+
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}
+));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 configRoutes(app);
 

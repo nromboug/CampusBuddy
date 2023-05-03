@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignUp = () => {
+const Profile = (props) => {
   // create state variables for each input
   const classes = useStyles();
   return (
@@ -32,8 +32,9 @@ const SignUp = () => {
             Account Settings
         </h2>
         <div className='empty-div'></div>
-        <h3>Username:</h3><p>Username</p>
-        <h3>Password:</h3> <p>Password</p>
+        <h3>Name:</h3><p>{props.user.name}</p>
+        <h3>Username:</h3><p>{props.user.username}</p>
+        <h3>:</h3> <p>Password</p>
         <h2>
             Rewards/Certificates
         </h2>
@@ -47,4 +48,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Profile;

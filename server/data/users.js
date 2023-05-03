@@ -4,29 +4,27 @@ const bcrypt=require('bcrypt');
 const validation = require('../validation');
 
 let exportedMethods={
-    async createUser(name,username,email,password){
+    async createUser(id, name,username,email){
         try{
             name=validation.checkName(name);
             username=validation.checkUserName(username);
-            password=validation.checkPassWord(password);
             email=validation.checkEmail(email);
             const usersCollection=await users();
-            const findUser=await usersCollection.find({username: username}).toArray();
+            const findUser=await usersCollection.find({_id: id}).toArray();
             if(findUser.length==0){
-                const saltRounds=16;
-                const hash=await bcrypt.hash(password,saltRounds);
                 const holder={
                     name: name,
                     username: username,
                     email: email,
-                    password: hash,
+                    _id: id
                 }
                 const newUser=await usersCollection.insertOne(holder);
+                console.log('user',newUser);
                 if(!newUser.acknowledged || !newUser.insertedId)
                 {
                     throw "Error: Could not Add User"
                 }
-                const returnUser=await usersCollection.findOne({username: username});
+                const returnUser=await usersCollection.findOne({_id: id});
                 return returnUser;
             }else{
                 throw "Error: There is Already A User With That UserName"
@@ -64,6 +62,15 @@ let exportedMethods={
                 username: findUser.username
             }
             return holder;
+        }
+    },
+    async getUserById(uuid){
+        const userCollection=await users();
+        const findUser=await userCollection.findOne({_id:uuid});
+        if(!findUser){
+            throw "Error: User with given username cannot be found"
+        }else{
+            return findUser;
         }
     }
 }

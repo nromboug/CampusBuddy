@@ -6,7 +6,7 @@ module.exports={
         if(typeof username!="string"){
             throw 'Error: The Username Is Not of Valid Type'
         }
-        if(username.length<3|| !(/^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$/.test(username)) || username.trim()==="" || username.indexOf(" ")>-1){
+        if(username.length<3|| !(/[A-Za-z0-9]{5,}$/.test(username)) || username.trim()==="" || username.indexOf(" ")>-1){
             throw 'Error: The Username is not in the correct format'
         }
         return username;
