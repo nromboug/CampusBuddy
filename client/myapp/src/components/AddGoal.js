@@ -1,57 +1,56 @@
 import React, {useState, useEffect} from 'react';
-import ReactModal from 'react-modal';
-import { TextField, Checkbox, Button, Modal, Typography }  from '@mui/material';
+import {useDispatch} from 'react-redux';
+import actions from '../actions';
 
-export default function AddGoal({ isOpen, handleClose }) {
-  const [name, setName] = useState('');
-  const [target, setTarget] = useState(0);
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    //add to server
-    handleCloseAddModal();
-  };
+function AddGoal() {
+  const dispatch=useDispatch();
+  const [formData, setFormData] = useState({goal: '', target: ''});
 
-  const handleCloseAddModal = () => {
-    handleClose(false);
-  };
+  const handleGoalChange=(e)=>{
+    setFormData((prev)=>({...prev,[e.target.name]: e.target.value}));
+  }
 
+  const handleTargetChange=(e)=>{
+    setFormData((prev)=>({...prev,[e.target.name]: e.target.value}));
+  }
+
+  const addNewGoal=()=>{
+    console.log("ran here");
+    dispatch(actions.addGoal(formData.goal,formData.target));
+    setFormData({ goal: '', target: '' });
+    document.getElementById('goal').value = '';
+    document.getElementById('target').value = '';
+  }
+
+  console.log(formData);
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={handleClose}
-      contentLabel="Add Goal Modal"
-    >
-      <h2>Add Goal</h2>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          id="my-input"
-          label="Target"
-          type="number"
-          value={target}
-          onChange={(e) => setTarget(e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <div class="buttons">
-          <Button type="submit" variant="contained">
-            Add Goal
-          </Button>
-          <Button onClick={handleCloseAddModal} variant="contained">
-            Cancel
-          </Button>
-        </div>
-        
-      </form>
-    </ReactModal>
+    <div className='add'>
+      <div className='input-selection'>
+        <label>
+          Goal:
+          <input
+            onChange={(e) => handleGoalChange(e)}
+            id='goal'
+            name='goal'
+            placeholder='Goal...'
+            value={formData.goal}
+          />
+        </label>
+        <label>
+          Target:
+          <input
+            onChange={(e) => handleTargetChange(e)}
+            id='target'
+            name='target'
+            placeholder='Target...'
+            value={formData.target}
+          />
+        </label>
+      </div>
+      <br/>
+      <button onClick={addNewGoal}>Add Goal</button>
+    </div>
   );
 }
+
+export default AddGoal;

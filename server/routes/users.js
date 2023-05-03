@@ -13,9 +13,7 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
-router
-    .route('/login')
-    .post(async (req, res) => {
+router.post('/login',async (req, res) => {
         console.log('login');
         let uid = undefined;
         admin
@@ -25,7 +23,8 @@ router
                 uid = decodedToken.uid;
                 theusers.getUserById(uid).then(user => {
                     req.session.user = user;
-                    req.session.save()
+                    req.session.save();
+                    console.log(req.session);
                     res.json(user);
                     return;
                 })
@@ -34,7 +33,7 @@ router
                 console.log(error);
                 res.status(400).json({error: error})
             })
-    })
+})
 
 router
     .route('/logout')

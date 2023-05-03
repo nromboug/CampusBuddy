@@ -34,7 +34,7 @@ const Profile = (props) => {
         <div className='empty-div'></div>
         <h3>Name:</h3><p>{props.user.name}</p>
         <h3>Username:</h3><p>{props.user.username}</p>
-        <h3>:</h3> <p>Password</p>
+        <h3>Email:</h3><p>{props.user.email}</p>
         <h2>
             Rewards/Certificates
         </h2>
