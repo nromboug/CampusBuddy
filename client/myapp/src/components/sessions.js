@@ -9,11 +9,15 @@ import {
   Button,
 } from '@mui/material';
 import Error from './Error';
+import EnterSessionPassword from './modals/EnterSessionPassword';
 
 export default function Sessions() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [sessionsData, setSessionsData] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
+  const [currentSession, setCurrentSession] = useState(null);
+  const currentUser = "userid"; // get current user 
   let card = null;
 
   useEffect(() => {
@@ -51,15 +55,24 @@ export default function Sessions() {
     fetchData();
   }, []);
 
-  const handlePassword = () => {
-    // popup
-  };
-  const handleRSVP = (session) => {
-    let currentUserId = null; // get current user ID
-    if (currentUserId in session.guests) {
-      // already RSVP's, remove from list or show warning
+  const handlePrivateRSVP = (session) => {
+    if (session.guests.includes(currentUser)) {
+      // already RSVP's, remove from list
     } else {
-      // add currentUserId to session.guests
+      setCurrentSession(session);
+      setShowModal(true);
+    }
+  };
+
+  const handleCloseModals = () => {
+    setShowModal(false);
+  };
+
+  const handlePublicRSVP = (session) => {
+    if (session.guests.includes(currentUser)) {
+      // already RSVP's, remove from list 
+    } else {
+      // add currentUser to session.guests
     }
   };
 
@@ -79,7 +92,7 @@ export default function Sessions() {
                 <Typography variant="body2" component="p">
                   Private session
                 </Typography>
-                <Button onClick={handlePassword}>Enter Password</Button>
+                <Button onClick={() => handlePrivateRSVP(session)}>{session.guests.includes(currentUser) ? "Un-RSVP" : "Enter Password"}</Button>
               </div>
                :
                <div>
@@ -89,7 +102,7 @@ export default function Sessions() {
                 <Typography variant="body2" component="p">
                   Public session with {session.guests.length} participants
                 </Typography>
-                <Button onClick={handleRSVP(session)}>RSVP</Button>
+                <Button onClick={() => handlePublicRSVP(session)}>{session.guests.includes(currentUser) ? "Un-RSVP" : "RSVP"}</Button>
                </div>
               }
             </CardContent>
@@ -121,6 +134,13 @@ export default function Sessions() {
               {card}
             </Grid>
             ) : (<p>No sessions to show</p>)}
+            {showModal && showModal && (
+              <EnterSessionPassword
+                isOpen={showModal}
+                handleClose={handleCloseModals}
+                session={currentSession}
+              />
+            )}
         </div>
       );}
 

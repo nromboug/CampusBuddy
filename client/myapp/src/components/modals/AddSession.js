@@ -7,6 +7,7 @@ export default function AddSession({ isOpen, handleClose }) {
   const [start, setStart] = useState(new Date().toISOString().slice(0, -8));
   const [end, setEnd] = useState(new Date().toISOString().slice(0, -8));
   const [isPrivate, setPrivate] = useState(false);
+  const [password, setPassword] = useState(null);
   const [guests, setGuests] = useState([]);
   const host = "current-user";
 
@@ -65,7 +66,14 @@ export default function AddSession({ isOpen, handleClose }) {
           />}
           label="Is it Private?" />
         {isPrivate ? 
-          null // set up an invite link? 
+          <TextField
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            fullWidth
+            margin="normal"
+        />
         : <span>Anyone can RSVP to the event.</span>}
         <div class="buttons">
           <Button type="submit" variant="contained">
