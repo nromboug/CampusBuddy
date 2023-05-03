@@ -3,7 +3,7 @@ import '../App.css'
 import axios from 'axios';
 
 import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 
 import {
     Box,
@@ -18,6 +18,7 @@ const auth = getAuth();
 
 const Login = (props) => {
     const [error, setError] = useState();
+    const navigate = useNavigate();
 
     const provider = new GoogleAuthProvider();
     provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -42,6 +43,7 @@ const Login = (props) => {
                         const {data} = response;
                         props.setUserInfo(data);
                         console.log(data);
+                        navigate('/home')
                     })
                     .catch(function (error) {
                         console.log('err',error);
