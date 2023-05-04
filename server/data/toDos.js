@@ -7,11 +7,7 @@ const { ObjectId } = require('mongodb');
 const createTodoItem = async (userId, title, details) => {
     if (!userId)
         throw "must provide a userId."
-    try {
-        userData.getUserById(userId);
-    } catch (e) {
-        throw " no user with given Id";
-    }
+    await userData.getUserById(userId);
 
     if (!title || title.trim().length === 0 || !/^[0-9]*([a-zA-Z ]{2,})[0-9]*$/.test(title.trim()))
         throw "Title must be more descriptive, and can only contain letters, numbers, and spaces."
@@ -53,7 +49,7 @@ const getTodoById = async (id) => {
     id = id.trim();
     const todoCollection = await todos();
 
-    const todos = await todoCollection.find({ _id: ObjectId(id) }).toArray();
+    const todos = await todoCollection.find({ _id: new ObjectId(id) }).toArray();
 
     return todos;
 
@@ -64,14 +60,14 @@ const deleteTodo = async (id) => {
         throw 'Must provide valid id';
 
     const todoCollection = await todos();
-
-    const deleted = await todoCollection.deleteOne({ _id: ObjectId(id) }).toArray();
+    
+    const deleted = await todoCollection.deleteOne({ _id: new ObjectId(id) });
 
     if (deleted.deletedCount !== 1) {
         throw "not deleted";
     }
 
-    return todos;
+    return deleted;
 }
 
 const markFinished = async (id) => {
@@ -82,7 +78,7 @@ const markFinished = async (id) => {
 
     const updated = await todoCollection.updateOne(
         {
-            _id: ObjectId(id)
+            _id: new ObjectId(id)
         }, {
         $set: { finished: true }
     }).toArray();
@@ -102,7 +98,7 @@ const markUnfinished = async (id) => {
 
     const updated = await todoCollection.updateOne(
         {
-            _id: ObjectId(id)
+            _id: new ObjectId(id)
         }, {
         $set: { finished: false }
     }).toArray();
