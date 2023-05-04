@@ -9,17 +9,15 @@ const main = async () => {
 
   await sessionCollection.insertMany([
     {
-      id: 1,
       name: "Fun Event!",
       start: new Date("2023-04-10T10:00:00Z"),
       end: new Date("2023-04-15T10:00:00Z"),
-      guests: ["user123", "user456"],
+      guests: ["user123", "user456", "testabc"],
       host: "user123",
       isPrivate: true,
       password: "something"
     },
     {
-      id: 2,
       name: "Not fun event (studying...)",
       start: new Date("2023-04-10T10:00:00Z"),
       end: new Date("2023-04-15T10:00:00Z"),
