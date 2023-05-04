@@ -3,7 +3,7 @@ import actions from '../actions';
 import { Card, CardContent, Box, Grid, CardHeader, Button, IconButton, Typography, LinearProgress }  from '@mui/material';
 import { AddCircle, RemoveCircle } from '@mui/icons-material';
 
-function Collector(props) {
+function Goal(props) {
   const dispatch = useDispatch();
 
   const incrementGoal=()=>{
@@ -55,4 +55,4 @@ function Collector(props) {
 );
 }
 
-export default Collector;
+export default Goal;

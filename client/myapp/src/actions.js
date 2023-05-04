@@ -21,10 +21,22 @@ const addGoal = (goal,target) => ({
     payload: {id: id}
   });
 
+  const addTodo = (todo) => ({
+    type: 'CREATE_TODO',
+    payload: {todo: todo}
+  });
+
+  const checkUncheckTodo=(id) =>({
+    type: 'CHECK_UNCHECK_TODO',
+    payload: {id: id}
+  })
+
   module.exports = {
     addGoal,
     deleteGoal,
     decrementGoal,
     incrementGoal,
+    addTodo,
+    checkUncheckTodo,
   };
   

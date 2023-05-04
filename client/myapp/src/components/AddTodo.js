@@ -1,46 +1,44 @@
 import React, {useState, useEffect} from 'react';
-import ReactModal from 'react-modal';
+import {useDispatch} from 'react-redux';
+import actions from '../actions';
 import { TextField, Checkbox, Button, Modal, Typography }  from '@mui/material';
 
-export default function AddTodo({ isOpen, handleClose }) {
-  const [text, setText] = useState('');
+function AddTodo() {
+  const dispatch=useDispatch();
+  const [todoData, setTodoData] = useState({todo: ''});
   
   const handleSubmit = (e) => {
     e.preventDefault();
     //add to server
-    handleCloseAddModal();
   };
 
-  const handleCloseAddModal = () => {
-    handleClose(false);
-  };
+  const addNewTodo=()=>{
+    dispatch(actions.addTodo(todoData.todo))
+    setTodoData({todo:''});
+    document.getElementById('todo').value = '';
+  }
+
+  const handleTodoChange=(e)=>{
+    setTodoData((prev)=>({...prev,[e.target.name]: e.target.value}));
+  }
 
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={handleClose}
-      contentLabel="Add Todo Modal"
-    >
-      <h2>Add Todo</h2>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Description"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          required
-          fullWidth
-          margin="normal"
+    <div className='add'>
+    <div className='input-selection'>
+      <label>
+        To Do:
+        <input
+          onChange={(e) => handleTodoChange(e)}
+          id='todo'
+          name='todo'
+          placeholder='Todo...'
+          value={todoData.todo}
         />
-        <div class="buttons">
-          <Button type="submit" variant="contained">
-            Add Todo
-          </Button>
-          <Button onClick={handleCloseAddModal} variant="contained">
-            Cancel
-          </Button>
-        </div>
-        
-      </form>
-    </ReactModal>
+      </label>
+    </div>
+    <br/>
+    <button onClick={addNewTodo}>Add To Do</button>
+  </div>
   );
 }
+export default AddTodo;
