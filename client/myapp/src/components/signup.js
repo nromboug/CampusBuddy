@@ -101,6 +101,7 @@ const Signup = () => {
                     />
                     <br/>
                     <TextField
+                        type="password"
                         required
                         id="password"
                         label="Password"
@@ -108,6 +109,7 @@ const Signup = () => {
                     />
                     <br/>
                     <TextField
+                        type="password"
                         required
                         id="password2"
                         label="Retype Password"
