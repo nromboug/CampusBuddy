@@ -178,4 +178,14 @@ router
   }
 });
 
+router
+.route('/private/:id')
+.get(async (req, res) => {
+  try {
+    //const list = await sessionData.checkSessionPassword(req.params.id);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
   module.exports = router

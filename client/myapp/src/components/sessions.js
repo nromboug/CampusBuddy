@@ -8,56 +8,63 @@ import {
   Typography,
   Button,
 } from '@mui/material';
+import axios from 'axios';
 import Error from './Error';
 import EnterSessionPassword from './modals/EnterSessionPassword';
 
-export default function Sessions() {
+export default function Sessions(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [sessionsData, setSessionsData] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
   const [currentSession, setCurrentSession] = useState(null);
-  const currentUser = "userid"; // get current user 
+  const currentUser = props.user.username; 
   let card = null;
+
+  async function fetchData() {
+    try {
+      const {data} = await axios.get(`http://localhost:3001/sessions`);
+      setSessionsData(data);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setError(true);
+    }
+  }
 
   useEffect(() => {
     console.log('on load useeffect');
     setError(false);
-    async function fetchData() {
-      try {
-        //const {data} = await axios.get(`http://localhost:3001/sessions`);
-        //setSessionsData(data);
-        setSessionsData([{
-          id: "session123",
-          name: "Fun",
-          start: new Date("2023-04-10T10:00:00Z"),
-          end: new Date("2023-04-15T10:00:00Z"),
-          guests: ["user123", "user456"],
-          host: "user123",
-          isPrivate: true,
-          password: "something"
-        },
-        {
-          id: "session000",
-          name: "Not fun",
-          start: new Date("2023-04-10T10:00:00Z"),
-          end: new Date("2023-04-15T10:00:00Z"),
-          guests: ["user123", "user456"],
-          host: "user123",
-          isPrivate: false
-        }]);
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
-        setError(true);
-      }
-    }
     fetchData();
   }, []);
 
+  async function addGuest(session) {
+    try {
+      const {data} = await axios.patch(`http://localhost:3001/sessions/${session.id}`, 
+      {
+        guests: [...session.guests, currentUser]
+      });
+      fetchData();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function removeGuest(session) {
+    try {
+      const {data} = await axios.patch(`http://localhost:3001/sessions/${session.id}`, 
+      {
+        guests: session.guests.filter((guest) => guest !== currentUser)
+      });
+      fetchData();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const handlePrivateRSVP = (session) => {
     if (session.guests.includes(currentUser)) {
-      // already RSVP's, remove from list
+      removeGuest(session);
     } else {
       setCurrentSession(session);
       setShowModal(true);
@@ -70,9 +77,9 @@ export default function Sessions() {
 
   const handlePublicRSVP = (session) => {
     if (session.guests.includes(currentUser)) {
-      // already RSVP's, remove from list 
+      removeGuest(session); 
     } else {
-      // add currentUser to session.guests
+      addGuest(session);
     }
   };
 
@@ -139,6 +146,7 @@ export default function Sessions() {
                 isOpen={showModal}
                 handleClose={handleCloseModals}
                 session={currentSession}
+                addGuest={addGuest}
               />
             )}
         </div>

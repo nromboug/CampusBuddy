@@ -1,20 +1,31 @@
 import React, {useState, useEffect} from 'react';
 import ReactModal from 'react-modal';
 import { TextField, Checkbox, Button, FormControlLabel, Typography }  from '@mui/material';
+import axios from 'axios';
 
-export default function EnterSessionPassword({ isOpen, handleClose, session }) {
+export default function EnterSessionPassword({ isOpen, handleClose, session, addGuest }) {
   const [password, setPassword] = useState(null);
   const [message, setMessage] = useState(null);
-  const currentUser = "current-user";
-
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    //check if password is correct
-    // add currentUser to session guests
-    //handleCloseAddModal();
-    // if not
-    setMessage("Incorrect password.");
+    async function enterCode() {
+      try {
+        /*const {data} = await axios.post(`http://localhost:3001/sessions/private/${session.id}`, 
+        {
+          password: password
+        });*/
+        return true;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    const res = enterCode();
+    if (res) {
+      addGuest(session);
+    } else {
+      setMessage("Incorrect password.");
+    }    
   };
 
   const handleCloseAddModal = () => {
