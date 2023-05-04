@@ -2,6 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const todos = mongoCollections.todos;
 const userData = require('./users');
 const validation = require('../validation');
+const { ObjectId } = require('mongodb');
 
 const createTodoItem = async (userId, title, details) => {
     if (!userId)
@@ -29,14 +30,15 @@ const createTodoItem = async (userId, title, details) => {
     if (!inserted.acknowledged || !inserted.insertedId) {
         throw "Error: Could not Add User"
     }
-    return { insertedId: inserted.insertedId }
+    const found = await todoCollection.findOne({ _id: inserted.insertedId })
+    return { found }
 
 }
 
 const getTodosByUser = async (userId) => {
-    if (!userId)
+    if (!userId.trim())
         throw 'Must provide UserId';
-
+    userId = userId.trim();
     const todoCollection = await todos();
 
     const todos = await todoCollection.find({ userId: userId }).toArray();
@@ -46,22 +48,77 @@ const getTodosByUser = async (userId) => {
 }
 
 const getTodoById = async (id) => {
-    if (!id)
-        throw 'Must provide UserId';
-
+    if (!id.trim() || !ObjectId.isValid(id))
+        throw 'Must provide valid id';
+    id = id.trim();
     const todoCollection = await todos();
 
-    const todos = await todoCollection.find({ _id: id }).toArray();
+    const todos = await todoCollection.find({ _id: ObjectId(id) }).toArray();
 
     return todos;
 
 }
 
+const deleteTodo = async (id) => {
+    if (!id.trim() || !ObjectId.isValid(id))
+        throw 'Must provide valid id';
 
+    const todoCollection = await todos();
 
+    const deleted = await todoCollection.deleteOne({ _id: ObjectId(id) }).toArray();
+
+    if (deleted.deletedCount !== 1) {
+        throw "not deleted";
+    }
+
+    return todos;
+}
+
+const markFinished = async (id) => {
+    if (!id.trim() || !ObjectId.isValid(id))
+        throw 'Must provide valid id';
+
+    const todoCollection = await todos();
+
+    const updated = await todoCollection.updateOne(
+        {
+            _id: ObjectId(id)
+        }, {
+        $set: { finished: true }
+    }).toArray();
+
+    if (updated) {
+        throw "not deleted";
+    }
+
+    return todos;
+}
+
+const markUnfinished = async (id) => {
+    if (!id.trim() || !ObjectId.isValid(id))
+        throw 'Must provide valid id';
+
+    const todoCollection = await todos();
+
+    const updated = await todoCollection.updateOne(
+        {
+            _id: ObjectId(id)
+        }, {
+        $set: { finished: false }
+    }).toArray();
+
+    if (updated) {
+        throw "not deleted";
+    }
+
+    return todos;
+}
 
 module.exports = {
     getTodoById,
     getTodosByUser,
-    createTodoItem
+    createTodoItem,
+    deleteTodo,
+    markFinished,
+    markUnfinished
 }
