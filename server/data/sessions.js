@@ -2,6 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const sessions = mongoCollections.sessions;
 const {ObjectId} = require('mongodb');
 const validation = require('./validation');
+const bcrypt = require('bcrypt');
 
 /* Create, Read, Update, and Delete Sessions */
 
@@ -10,14 +11,14 @@ let exportedMethods = {
   async createSession(name, start, end, isPrivate, host, password) {
 
     const collection = await sessions();
-
+    const hashedPW = await bcrypt.hash(password,6);
     let newSession = {
       name: name,
       start: start,
       end: end,
       isPrivate: isPrivate, 
       host: host, 
-      password: password, 
+      password: hashedPW, 
       guests: [host]
     };
 
@@ -107,7 +108,18 @@ let exportedMethods = {
   async getAllSessions() {
     const collection = await sessions();
     return await collection.find({}).toArray();
-  }
+  },
+  async checkSession(id,password){
+    const collection = await sessions();
+    const session = await collection.findOne({_id: new ObjectId(id)});
+    if (!session) throw 'Error: Session not found';
+    const comparePasswords=await bcrypt.compare(password,session.password);
+    if (comparePasswords) {
+      return {valid: true};
+    } else {
+      return {valid: false};
+    }
+},
 };
 
 module.exports = exportedMethods;

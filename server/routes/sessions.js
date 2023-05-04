@@ -180,9 +180,10 @@ router
 
 router
 .route('/private/:id')
-.get(async (req, res) => {
+.post(async (req, res) => {
   try {
-    //const list = await sessionData.checkSessionPassword(req.params.id);
+    const valid = await sessionData.checkSession(req.params.id, req.body.password);
+    res.json(valid);
   } catch (e) {
     res.status(500).send(e);
   }

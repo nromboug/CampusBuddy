@@ -11,21 +11,22 @@ export default function EnterSessionPassword({ isOpen, handleClose, session, add
     e.preventDefault();
     async function enterCode() {
       try {
-        /*const {data} = await axios.post(`http://localhost:3001/sessions/private/${session.id}`, 
+        const {data} = await axios.post(`http://localhost:3001/sessions/private/${session._id}`, 
         {
           password: password
-        });*/
-        return true;
+        });
+        if (data.valid) {
+          addGuest(session);
+          handleCloseAddModal();
+        } else {
+          setMessage("Incorrect password.");
+        }
       } catch (e) {
         console.log(e);
+        setMessage("Something went wrong.");
       }
     }
-    const res = enterCode();
-    if (res) {
-      addGuest(session);
-    } else {
-      setMessage("Incorrect password.");
-    }    
+    enterCode();
   };
 
   const handleCloseAddModal = () => {
