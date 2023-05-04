@@ -6,7 +6,6 @@ const validation = require('../data/validation');
 
 const arraysEqual = (arr1, arr2) => arr1.length === arr2.length && arr1.every((e, i) => e === arr2[i]);
 
-
 router
   .route('/:id')
   .get(async (req, res) => {
@@ -143,7 +142,6 @@ router
   .post(async (req, res) => {
     const rData = req.body;
     try {
-      req.params.id = validation.checkId(req.params.id, 'ID url param');
       rData.name = validation.checkString(rData.name, 'Name');
       rData.start = validation.checkDate(rData.start, 'Start Date');
       rData.end = validation.checkDate(rData.end, 'End Date');
@@ -167,5 +165,17 @@ router
       res.status(500).json({error: e});
     }
   });
+
+  
+router
+.route('/user/:username')
+.get(async (req, res) => {
+  try {
+    const list = await sessionData.getSessionsWithUser(req.params.username);
+    res.json(list);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
 
   module.exports = router
