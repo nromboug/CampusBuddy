@@ -65,7 +65,7 @@ router
             res.status(500).json(e);
         }
     })
-    .update(async (req, res) => {
+    .patch(async (req, res) => {
         console.log('update todo')
         if (!req.body) {
             res.status(400).json({ error: 'No payload.' });
