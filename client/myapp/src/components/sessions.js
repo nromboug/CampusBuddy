@@ -8,58 +8,78 @@ import {
   Typography,
   Button,
 } from '@mui/material';
+import axios from 'axios';
 import Error from './Error';
+import EnterSessionPassword from './modals/EnterSessionPassword';
 
-export default function Sessions() {
+export default function Sessions(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [sessionsData, setSessionsData] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
+  const [currentSession, setCurrentSession] = useState(null);
+  const currentUser = props.user.username; 
   let card = null;
+
+  async function fetchData() {
+    try {
+      const {data} = await axios.get(`http://localhost:3001/sessions`);
+      setSessionsData(data);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setError(true);
+    }
+  }
 
   useEffect(() => {
     console.log('on load useeffect');
     setError(false);
-    async function fetchData() {
-      try {
-        //const {data} = await axios.get(`http://localhost:3001/sessions`);
-        //setSessionsData(data);
-        setSessionsData([{
-          id: "session123",
-          name: "Fun",
-          start: new Date("2023-04-10T10:00:00Z"),
-          end: new Date("2023-04-15T10:00:00Z"),
-          guests: ["user123", "user456"],
-          host: "user123",
-          isPrivate: true,
-          password: "something"
-        },
-        {
-          id: "session000",
-          name: "Not fun",
-          start: new Date("2023-04-10T10:00:00Z"),
-          end: new Date("2023-04-15T10:00:00Z"),
-          guests: ["user123", "user456"],
-          host: "user123",
-          isPrivate: false
-        }]);
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
-        setError(true);
-      }
-    }
     fetchData();
   }, []);
 
-  const handlePassword = () => {
-    // popup
-  };
-  const handleRSVP = (session) => {
-    let currentUserId = null; // get current user ID
-    if (currentUserId in session.guests) {
-      // already RSVP's, remove from list or show warning
+  async function addGuest(session) {
+    try {
+      const {data} = await axios.patch(`http://localhost:3001/sessions/${session.id}`, 
+      {
+        guests: [...session.guests, currentUser]
+      });
+      fetchData();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function removeGuest(session) {
+    try {
+      const {data} = await axios.patch(`http://localhost:3001/sessions/${session.id}`, 
+      {
+        guests: session.guests.filter((guest) => guest !== currentUser)
+      });
+      fetchData();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const handlePrivateRSVP = (session) => {
+    if (session.guests.includes(currentUser)) {
+      removeGuest(session);
     } else {
-      // add currentUserId to session.guests
+      setCurrentSession(session);
+      setShowModal(true);
+    }
+  };
+
+  const handleCloseModals = () => {
+    setShowModal(false);
+  };
+
+  const handlePublicRSVP = (session) => {
+    if (session.guests.includes(currentUser)) {
+      removeGuest(session); 
+    } else {
+      addGuest(session);
     }
   };
 
@@ -79,7 +99,7 @@ export default function Sessions() {
                 <Typography variant="body2" component="p">
                   Private session
                 </Typography>
-                <Button onClick={handlePassword}>Enter Password</Button>
+                <Button onClick={() => handlePrivateRSVP(session)}>{session.guests.includes(currentUser) ? "Un-RSVP" : "Enter Password"}</Button>
               </div>
                :
                <div>
@@ -89,7 +109,7 @@ export default function Sessions() {
                 <Typography variant="body2" component="p">
                   Public session with {session.guests.length} participants
                 </Typography>
-                <Button onClick={handleRSVP(session)}>RSVP</Button>
+                <Button onClick={() => handlePublicRSVP(session)}>{session.guests.includes(currentUser) ? "Un-RSVP" : "RSVP"}</Button>
                </div>
               }
             </CardContent>
@@ -121,6 +141,14 @@ export default function Sessions() {
               {card}
             </Grid>
             ) : (<p>No sessions to show</p>)}
+            {showModal && showModal && (
+              <EnterSessionPassword
+                isOpen={showModal}
+                handleClose={handleCloseModals}
+                session={currentSession}
+                addGuest={addGuest}
+              />
+            )}
         </div>
       );}
 

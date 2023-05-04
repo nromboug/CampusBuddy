@@ -1,19 +1,36 @@
 import React, {useState, useEffect} from 'react';
 import ReactModal from 'react-modal';
 import { TextField, Checkbox, Button, FormControlLabel, Typography }  from '@mui/material';
+import axios from 'axios';
 
-export default function AddSession({ isOpen, handleClose }) {
+export default function AddSession({ isOpen, handleClose, currentUser, addSessionToState }) {
   const [name, setName] = useState('');
   const [start, setStart] = useState(new Date().toISOString().slice(0, -8));
   const [end, setEnd] = useState(new Date().toISOString().slice(0, -8));
   const [isPrivate, setPrivate] = useState(false);
+  const [password, setPassword] = useState(null);
   const [guests, setGuests] = useState([]);
-  const host = "current-user";
-
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    //add to server
+    //name, start, end, isPrivate, host, password
+    async function createSession() {
+      try {
+        const {data} = await axios.post(`http://localhost:3001/sessions`, 
+        {
+          name: name, 
+          start: start, 
+          end: end, 
+          isPrivate: isPrivate, 
+          host: currentUser, 
+          password: password
+        });
+        addSessionToState(data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    createSession();
     handleCloseAddModal();
   };
 
@@ -65,7 +82,14 @@ export default function AddSession({ isOpen, handleClose }) {
           />}
           label="Is it Private?" />
         {isPrivate ? 
-          null // set up an invite link? 
+          <TextField
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            fullWidth
+            margin="normal"
+        />
         : <span>Anyone can RSVP to the event.</span>}
         <div class="buttons">
           <Button type="submit" variant="contained">

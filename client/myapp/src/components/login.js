@@ -27,9 +27,9 @@ const Login = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(document.getElementById('email').value)
+        console.log(document.getElementById('username').value)
 
-        signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value)
+        signInWithEmailAndPassword(auth, document.getElementById('username').value, document.getElementById('password').value)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
@@ -54,7 +54,6 @@ const Login = (props) => {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log("Failed");
                 console.log(errorMessage)
                 setError(true);
             });
@@ -82,8 +81,8 @@ const Login = (props) => {
                 <div>
                     <TextField
                         required
-                        id="email"
-                        label="Email"
+                        id="username"
+                        label="Username"
                         className='text-field'
                     />
                     <TextField
