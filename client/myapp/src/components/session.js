@@ -13,7 +13,6 @@ export default function Session(props) {
   const [session, setSession] = useState(props.session);
   const [showModal, setShowModal] = useState(false);
   const currentUser = props.currentUser; 
-  let card = null;
 
   useEffect(() => {
     

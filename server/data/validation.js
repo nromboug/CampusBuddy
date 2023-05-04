@@ -2,7 +2,7 @@ const {ObjectId} = require('mongodb');
 
 module.exports = {
   checkId(id) {
-    if (!id) throw 'Error: You must provide an id to search for';
+    if (!id) throw 'Error: You must provide an id';
     if (typeof id !== 'string') throw 'Error: id must be a string';
     id = id.trim();
     if (id.length === 0)
