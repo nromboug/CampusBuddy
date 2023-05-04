@@ -17,7 +17,8 @@ let exportedMethods = {
       end: end,
       isPrivate: isPrivate, 
       host: host, 
-      password: password
+      password: password, 
+      guests: [host]
     };
 
     const newInsertInformation = await collection.insertOne(newSession);
@@ -26,16 +27,25 @@ let exportedMethods = {
   },
 
   async readSession(id) {
+    try {
+      const collection = await sessions();
+      const session = await collection.findOne({_id: new ObjectId(id)});
+      if (!session) throw 'Error: Session not found';
+      return session;
+    } catch(e) {
+      throw 'Error: '+e;
+    }
+  },
 
-    const collection = await session();
-    const session = await collection.findOne({_id: ObjectId(id)});
-
-    if (!session) throw 'Error: Session not found';
+  async getSessionsWithUser(username) {
+    const collection = await sessions();
+    const session = await collection.find({ guests: { $in: [username] } }).toArray();
+    if (!session) return [];
     return session;
   },
   
   async updateSession(id, updatedSession) {
-    const collection = await recipes();
+    const collection = await sessions();
 
     const updatedSessionData = {};
 
@@ -70,7 +80,7 @@ let exportedMethods = {
     }
 
     await collection.updateOne(
-      {_id: ObjectId(id)},
+      {_id: new ObjectId(id)},
       {$set: updatedSessionData}
     );
 
@@ -87,7 +97,7 @@ let exportedMethods = {
       console.log(e);
       return;
     }
-    const deletionInfo = await collection.deleteOne({_id: ObjectId(id)});
+    const deletionInfo = await collection.deleteOne({_id: new ObjectId(id)});
     if (deletionInfo.deletedCount === 0) {
       throw `Could not delete session with id of ${id}`;
     }

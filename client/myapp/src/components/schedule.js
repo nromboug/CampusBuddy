@@ -7,36 +7,29 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import axios from 'axios';
 import AddSession from './modals/AddSession';
 
-export default function Schedule() {
+export default function Schedule(props) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [sessions, setSessions] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
-    //let {data} = axios.get('/user/sessions'); ?
-    //example; replace when server is implemented
-    setSessions([{
-      id: "session123",
-      name: "Fun",
-      start: new Date("2023-04-10T10:00:00Z"),
-      end: new Date("2023-04-15T10:00:00Z"),
-      guests: ["user123", "user456"],
-      host: "user123",
-      isPrivate: true,
-      password: "something"
-    },
-    {
-      id: "session000",
-      name: "Not fun",
-      start: new Date("2023-04-10T10:00:00Z"),
-      end: new Date("2023-04-15T10:00:00Z"),
-      guests: ["user123", "user456"],
-      host: "user123",
-      isPrivate: false
-    }]);
+    async function fetchData() {
+      try {
+        const {data} = await axios.get(`http://localhost:3001/sessions/user/${props.user.username}`);
+        setSessions(data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchData();
   }, []);
+
+  const addSessionToState = (newSession) => {
+    setSessions([...sessions, newSession]);
+  };
 
   const handlePrevDate = () => {
     const prevDate = new Date(selectedDate.getTime() - 24 * 60 * 60 * 1000);
@@ -57,7 +50,7 @@ export default function Schedule() {
   };
 
   const filteredSessions = sessions.filter(
-    (session) => session.start.toDateString() === selectedDate.toDateString()
+    (session) => (new Date(session.start)).toDateString() === selectedDate.toDateString()
   );
 
   return (
@@ -105,7 +98,7 @@ export default function Schedule() {
                       Hosted by {session.host}
                     </Typography>
                     <Typography variant="body2" component="p">
-                      {session.isPrivate ? 'Private' : 'Public'} session with {session.guests.length} participants
+                      {session.isPrivate ? 'Private' : 'Public'} session with {session.guests.length} participant(s)
                     </Typography>
                   </CardContent>
                 </Card>
@@ -119,6 +112,8 @@ export default function Schedule() {
       <AddSession
         isOpen={showAddModal}
         handleClose={handleCloseModals}
+        currentUser={props.user.username}
+        addSessionToState={addSessionToState}
       />
     )}
     </div>
