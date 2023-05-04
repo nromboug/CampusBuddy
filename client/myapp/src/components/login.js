@@ -27,9 +27,9 @@ const Login = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(document.getElementById('username').value)
+        console.log(document.getElementById('Email').value)
 
-        signInWithEmailAndPassword(auth, document.getElementById('username').value, document.getElementById('password').value)
+        signInWithEmailAndPassword(auth, document.getElementById('Email').value, document.getElementById('password').value)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
@@ -81,11 +81,12 @@ const Login = (props) => {
                 <div>
                     <TextField
                         required
-                        id="username"
-                        label="Username"
+                        id="Email"
+                        label="Email"
                         className='text-field'
                     />
                     <TextField
+                        type="password"
                         required
                         id="password"
                         label="Password"
