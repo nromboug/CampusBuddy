@@ -27,7 +27,7 @@ const createTodoItem = async (userId, title, details) => {
         throw "Error: Could not Add User"
     }
     const found = await todoCollection.findOne({ _id: inserted.insertedId })
-    return { found }
+    return { found };
 
 }
 
