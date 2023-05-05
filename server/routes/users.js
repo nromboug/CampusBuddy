@@ -26,13 +26,19 @@ router
                 theusers.getUserById(uid).then(user => {
                     req.session.user = user;
                     req.session.save()
+                    theusers.updateStreak(user._id).then(
+                        streak => console.log(streak)
+                    ).catch(
+                        e => console.log(e)
+                    )
                     res.json(user);
-                    return;
+                    return
                 })
             })
             .catch(function (error) {
                 console.log(error);
                 res.status(400).json({error: error})
+                return
             })
     })
 
