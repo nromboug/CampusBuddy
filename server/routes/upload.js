@@ -3,6 +3,8 @@ const router = express.Router();
 const multer = require('multer');
 const { identify, resize, convert } = require('imagemagick');
 const path = require('path');
+const data = require('../data');
+const theusers = data.users;
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -44,7 +46,14 @@ const resizeImage = (req, res, next) => {
 };
 
 router.post('/', upload.single('file'), resizeImage, async (req, res) => {
-  res.json({url: "http://localhost:3001/uploads/"+req.file.originalname, statusText: "200 Okay"});
+  try {
+    const url = "http://localhost:3001/uploads/"+req.file.originalname;
+    theusers.updateImage(req.session.user._id, url);
+    res.json({url: url, statusText: "200 Okay"});
+  } catch(e) {
+    res.json(e);
+  }
+  
 });
 
 module.exports = router;

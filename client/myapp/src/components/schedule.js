@@ -50,7 +50,7 @@ export default function Schedule(props) {
   };
 
   const filteredSessions = sessions.filter(
-    (session) => (new Date(session.start)).toDateString() === selectedDate.toDateString()
+    (session) => (new Date(session.start)) <= selectedDate && (new Date(session.end)) >= selectedDate
   );
 
   return (
@@ -92,7 +92,10 @@ export default function Schedule(props) {
                       {session.name}
                     </Typography>
                     <Typography>
-                      Starts on {new Date(session.start).toLocaleString([], {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit', hour12: true})} ;
+                      Starts on {new Date(session.start).toLocaleString([], {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit', hour12: true})}
+                    </Typography>
+                    <Typography>
+                      Ends on {new Date(session.end).toLocaleString([], {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit', hour12: true})}
                     </Typography>
                     <Typography color="textSecondary">
                       Hosted by {session.host}

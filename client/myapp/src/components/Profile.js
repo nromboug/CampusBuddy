@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 
 const Profile = (props) => {
   const [image, setImage] = useState({ preview: '', data: '' })
-  const [imageUrl, setImageUrl] = useState('')
+  const [imageUrl, setImageUrl] = useState(props.user.image ? props.user.image : '')
   const [status, setStatus] = useState('')
   // create state variables for each input
   const classes = useStyles();
@@ -51,7 +51,8 @@ const Profile = (props) => {
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit}>
-        <input type='file' name='file' onChange={handleFileChange}></input>
+        <label for='profile-picture' >Profile Picture: </label>
+        <input type='file' name='file' id='profile-picture'onChange={handleFileChange}></input>
         <button type='submit'>Submit</button>
       </form>
         <h1>

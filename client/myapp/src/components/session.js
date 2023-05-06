@@ -82,7 +82,10 @@ export default function Session(props) {
             :
             <div>
             <Typography>
-              Starts on {new Date(session.start).toLocaleString([], {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit', hour12: true})} ;
+              Starts on {new Date(session.start).toLocaleString([], {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit', hour12: true})}
+            </Typography>
+            <Typography>
+              Ends on {new Date(session.end).toLocaleString([], {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit', hour12: true})}
             </Typography>
             <Typography variant="body2" component="p">
               Public session with {session.guests.length} participants
