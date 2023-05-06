@@ -5,7 +5,12 @@ const admin = require('firebase-admin')
 const data = require('../data');
 const validation = require('../validation');
 const theusers = data.users;
+const redis=require('redis');
+const client=redis.createClient();
 
+client.on('error', (error) => {
+    console.error(error)
+})
 
 var serviceAccount = require("../adminKey.json");
 
@@ -24,13 +29,15 @@ router
             .then(function (decodedToken) {
                 uid = decodedToken.uid;
                 theusers.getUserById(uid).then(user => {
-                    req.session.user = user;
-                    req.session.save()
-                    theusers.updateStreak(user._id).then(
+                    if (!req.session.user) { // Check if session already exists
+                        req.session.user = user;
+                        theusers.updateStreak(user._id).then(
                         streak => console.log(streak)
                     ).catch(
                         e => console.log(e)
                     )
+                        //req.session.save()
+                      }
                     res.json(user);
                     return
                 })

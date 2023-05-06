@@ -1,48 +1,45 @@
 const mongoCollections = require("../config/mongoCollections");
-const todos = mongoCollections.todos;
+const users = mongoCollections.users;
 const userData = require('./users');
 const validation = require('../validation');
 const { ObjectId } = require('mongodb');
 
-const createTodoItem = async (userId, title, details) => {
-    if (!userId)
-        throw "must provide a userId."
-    await userData.getUserById(userId);
-
-    if (!title || title.trim().length === 0 || !/^[0-9]*([a-zA-Z ]{2,})[0-9]*$/.test(title.trim()))
-        throw "Title must be more descriptive, and can only contain letters, numbers, and spaces."
-    if (!details || details.trim().length === 0 || !/[a-zA-Z ]{9,}/.test(details.trim()))
-        throw "Details must be more descriptive."
-
-    const newTodo = {
-        userId: userId.trim(),
-        title: title.trim(),
-        finished: false
-    }
-
-    const todoCollection = await todos();
-
-    const inserted = await todoCollection.insertOne(newTodo);
-    if (!inserted.acknowledged || !inserted.insertedId) {
-        throw "Error: Could not Add User"
-    }
-    const found = await todoCollection.findOne({ _id: inserted.insertedId })
-    return { found };
-
+const createTodoItem = async (userId,id,todo, completed) => {
+    const usersCollection = await users();
+    let aUser = await userData.getUserById(userId);
+    let updatedTodos = [...aUser.todo, {_id: id, todo: todo, completed: completed}];
+    await usersCollection.updateOne({_id: userId}, {$set: {todo: updatedTodos}});
+    let getNewUser=await userData.getUserById(userId);
+    return getNewUser;
 }
 
 const getTodosByUser = async (userId) => {
-    if (!userId.trim())
-        throw 'Must provide UserId';
-    userId = userId.trim();
-    const todoCollection = await todos();
-
-    const todos = await todoCollection.find({ userId: userId }).toArray();
-
-    return todos;
-
+    let aUser = await userData.getUserById(userId);
+    return aUser.todo;
 }
 
+const updateTodo=async(userId,id)=>{
+    const usersCollection = await users();
+    let aUser = await userData.getUserById(userId);
+    let allTodos = aUser.todo;
+    for (let i = 0; i < allTodos.length; i++) {
+      if (allTodos[i].id === id) {
+        let updateComplete = !Boolean(allTodos[i].completed);
+        allTodos[i] = {
+          id: allTodos[i].id,
+          todo: allTodos[i].todo,
+          completed: updateComplete
+        };
+        await usersCollection.updateOne({ _id: userId }, { $set: { todo: allTodos} });
+        let getNewUser = await userData.getUserById(userId);
+        return getNewUser;
+      }
+    }
+    throw "Error: Todo not found";
+  };  
+  
+
+/*
 const getTodoById = async (id) => {
     if (!id.trim() || !ObjectId.isValid(id))
         throw 'Must provide valid id';
@@ -110,11 +107,9 @@ const markUnfinished = async (id) => {
     return todos;
 }
 
+*/
 module.exports = {
-    getTodoById,
-    getTodosByUser,
     createTodoItem,
-    deleteTodo,
-    markFinished,
-    markUnfinished
+    getTodosByUser,
+    updateTodo,
 }

@@ -18,6 +18,8 @@ let exportedMethods = {
                     username: username,
                     email: email,
                     _id: id,
+                    goals:[], 
+                    todo: [],
                     streak: 1,
                     lastLogin: {
                         year: date.getUTCFullYear(),
