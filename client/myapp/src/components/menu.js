@@ -43,6 +43,7 @@ const BasicMenu = (props) => {
         <div>
             <Button
                 id="basic-button"
+                aria-label="Basic Button"
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
@@ -52,6 +53,7 @@ const BasicMenu = (props) => {
             </Button>
             <Menu
                 id="basic-menu"
+                aria-label="Basic Menu"
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
