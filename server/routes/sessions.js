@@ -171,6 +171,7 @@ router
 .route('/user/:username')
 .get(async (req, res) => {
   try {
+    req.params.username = validation.checkString(req.params.username);
     const list = await sessionData.getSessionsWithUser(req.params.username);
     res.json(list);
   } catch (e) {
@@ -180,9 +181,11 @@ router
 
 router
 .route('/private/:id')
-.get(async (req, res) => {
+.post(async (req, res) => {
   try {
-    //const list = await sessionData.checkSessionPassword(req.params.id);
+    req.body.password = validation.checkString(req.body.password);
+    const valid = await sessionData.checkSession(req.params.id, req.body.password);
+    res.json(valid);
   } catch (e) {
     res.status(500).send(e);
   }

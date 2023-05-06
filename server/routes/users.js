@@ -31,15 +31,21 @@ router
                 theusers.getUserById(uid).then(user => {
                     if (!req.session.user) { // Check if session already exists
                         req.session.user = user;
+                        theusers.updateStreak(user._id).then(
+                        streak => console.log(streak)
+                    ).catch(
+                        e => console.log(e)
+                    )
                         //req.session.save()
                       }
                     res.json(user);
-                    return;
+                    return
                 })
             })
             .catch(function (error) {
                 console.log(error);
                 res.status(400).json({error: error})
+                return
             })
     })
 
