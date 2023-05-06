@@ -1,10 +1,6 @@
 import {v4 as uuid} from 'uuid';
+import axios from 'axios';
 const initalState = [
-  {
-    id: uuid(),
-    todo: 'Make a Session',
-    completed: false,
-  }
 ];
 
 let copyState=null;
@@ -15,7 +11,22 @@ const goalsReducer = (state = initalState, action) => {
   switch (type) {
     case 'CREATE_TODO':
       console.log('payload', payload);
-      return [...state, {id: uuid(), todo: payload.todo, completed: false}];
+      const newTodo={id: uuid(), todo: payload.todo, completed: false};
+      axios.post("http://localhost:3001/todos", newTodo)
+      .then(response => {
+        console.log('response', response);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+      return [...state, newTodo];
+    case 'SET_TODO':
+      if (state.some((todo) => todo.id === payload.id)) {
+        return state;
+      } else {
+        console.log("ran here");
+        return [...state, { id: payload.id, todo: payload.todo, completed: payload.completed}];
+      }
     case 'CHECK_UNCHECK_TODO':
         console.log('payload', payload);
         copyState = state.map((todo) => {
@@ -25,6 +36,7 @@ const goalsReducer = (state = initalState, action) => {
           }
           return todo;
         });
+        axios.patch("http://localhost:3001/todos",{id:payload.id});
         return [...copyState];
     default:
       return state;

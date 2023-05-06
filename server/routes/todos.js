@@ -5,7 +5,67 @@ const validation = require('../validation');
 const theusers = data.users;
 const thetodos = data.todos
 const { ObjectId } = require('mongodb');
+const redis=require('redis');
+const client=redis.createClient();
+client.connect().then(()=>{});
 
+router.get('/', async (req, res) => {
+    try{
+        let theKeys=await client.keys("*");
+        let userInfo="";
+        for(let i=0;i<theKeys.length;i++){
+            let theUser=await client.get(theKeys[i]);
+            if(JSON.parse(theUser).user){
+                userInfo=JSON.parse(theUser);
+                break;
+            }
+        }
+        return res.json(userInfo);
+    }catch(e){
+        res.json(e);
+    }
+  });
+
+  router.post('/', async (req, res) => {
+    try{
+        if (req.body.completed!==true && req.body.completed!==false) {
+            throw new Error('Completed needs to be a boolean value');
+        }
+        let theKeys=await client.keys("*");
+        let userInfo="";
+        for(let i=0;i<theKeys.length;i++){
+            let theUser=await client.get(theKeys[i]);
+            if(JSON.parse(theUser).user){
+                userInfo=JSON.parse(theUser);
+                break;
+            }
+        }
+        let pushTodo=await thetodos.createTodoItem(userInfo.user._id,req.body.id,req.body.todo,req.body.completed);
+        return res.json(pushTodo);
+    }catch(e){
+        res.json(e);
+    }
+  });
+
+  router.patch('/', async (req, res) => {
+    try{
+        let theKeys=await client.keys("*");
+        let userInfo="";
+        for(let i=0;i<theKeys.length;i++){
+            let theUser=await client.get(theKeys[i]);
+            if(JSON.parse(theUser).user){
+                userInfo=JSON.parse(theUser);
+                break;
+            }
+        }
+        let newUser=await thetodos.updateTodo(userInfo.user._id,req.body.id);
+        return res.json(newUser);
+    }catch(e){
+        res.json(e);
+    }
+  });
+
+/*
 router
     .route('/')
     .post(async (req, res) => {
@@ -129,5 +189,5 @@ router
         res.json('test')
     })
 
-
+*/
 module.exports = router
