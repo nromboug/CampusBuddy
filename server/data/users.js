@@ -16,7 +16,9 @@ let exportedMethods={
                     name: name,
                     username: username,
                     email: email,
-                    _id: id
+                    _id: id,
+                    goals:[], 
+                    todo: [],
                 }
                 const newUser=await usersCollection.insertOne(holder);
                 console.log('user',newUser);

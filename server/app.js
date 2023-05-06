@@ -5,6 +5,7 @@ const configRoutes = require('./routes/index.js');
 const redis = require('redis');
 const RedisStore = require('connect-redis').default;
 const cors = require('cors');
+const path = require('path');
 
 const redisClient = redis.createClient({
     host: 'localhost',
@@ -39,6 +40,7 @@ app.use(
     })
 )
 
+
 app.use('/', (req, res, next) => {
     if (req.session.user) {
         console.log('in session!');
@@ -48,6 +50,7 @@ app.use('/', (req, res, next) => {
     next();
 })
 
+
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
@@ -56,6 +59,8 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
+//app.use(fileUpload());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 configRoutes(app);
 
