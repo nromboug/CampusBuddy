@@ -25,7 +25,8 @@ let exportedMethods = {
                         year: date.getUTCFullYear(),
                         month: date.getUTCMonth(),
                         day: date.getUTCDate()
-                    }
+                    },
+                    image: null,
                 }
                 const newUser = await usersCollection.insertOne(holder);
                 console.log('user', newUser);
@@ -122,6 +123,15 @@ let exportedMethods = {
             })
         return { streak: 'reset' };
 
+    },
+    async updateImage(id, url) {
+        const userCollection = await users();
+        const findUser = await userCollection.findOne({ _id: id });
+        if (!findUser)
+            throw "Error: User with given id cannot be found"
+
+        const updated = await userCollection.updateOne({ _id: id }, {$set: {image: url}});
+        return updated;
     }
 
     // async updateUser(id, name, username, email) {

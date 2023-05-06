@@ -27,7 +27,7 @@ function App() {
                 <header className="App-header">
                     <div className='title-bar'>
                         <div className='prof-stuff'>
-                            <Avatar className='avatar' src={noPfp} />
+                            <Avatar className='avatar' src={userInfo && userInfo.image ? userInfo.image : noPfp} alt='profile picture'/>
                             <BasicMenu user={userInfo} setUserInfo={setUserInfo}/>
                         </div>
 
