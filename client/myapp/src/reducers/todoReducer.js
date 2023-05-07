@@ -11,7 +11,7 @@ const goalsReducer = (state = initalState, action) => {
   switch (type) {
     case 'CREATE_TODO':
       console.log('payload', payload);
-      const newTodo={id: uuid(), todo: payload.todo, completed: false};
+      const newTodo={userId: payload.userId, id: uuid(), todo: payload.todo, completed: false};
       axios.post("http://localhost:3001/todos", newTodo)
       .then(response => {
         console.log('response', response);
@@ -36,7 +36,7 @@ const goalsReducer = (state = initalState, action) => {
           }
           return todo;
         });
-        axios.patch("http://localhost:3001/todos",{id:payload.id});
+        axios.patch("http://localhost:3001/todos",{userId: payload.userId,id:payload.id});
         return [...copyState];
     default:
       return state;

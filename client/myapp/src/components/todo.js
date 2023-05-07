@@ -7,20 +7,20 @@ import ATodo from './ATodo';
 import actions from '../actions';
 import axios from 'axios';
 
-export default function Todo() {
+export default function Todo(props) {
   const [addBtnToggle, setBtnToggle] = useState(false);
   const allTodo = useSelector((state) => state.todo);
   const dispatch=useDispatch();
 
   useEffect(() => {
     async function fetchData() {
-      let data = await axios.get("http://localhost:3001/todos");
-      console.log(data.data);
-      data = data.data.user.todo;
+      let data = await axios.post("http://localhost:3001/todos/allTodos",{id: props.user._id});
+      data = data.data;
+      console.log(data);
       for (let i = 0; i < data.length; i++) {
         const existingTodo = allTodo.some((todo) => todo.id === data[i].id);
         if (!existingTodo) {
-          dispatch(actions.setTodo(data[i].id,data[i].todo,data[i].completed));
+          dispatch(actions.setTodo(data[i]._id,data[i].todo,data[i].completed));
         }
       }
     }
@@ -40,11 +40,11 @@ export default function Todo() {
               >
               Add Todo
             </Button>
-            {addBtnToggle && <AddTodo/>}
+            {addBtnToggle && <AddTodo user={props.user}/>}
           </Box>
           <List >
           {allTodo.map((todo) => {
-            return <ATodo id={todo.id} todo={todo} />
+            return <ATodo id={todo.id} todo={todo} user={props.user}/>
           })}
           </List>
         </CardContent>

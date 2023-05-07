@@ -1,6 +1,7 @@
-const addGoal = (goal,target) => ({
+const addGoal = (userId,goal,target) => ({
     type: 'CREATE_GOAL',
     payload: {
+      userId: userId,
       goal: goal,
       target: target,
     }
@@ -16,29 +17,40 @@ const addGoal = (goal,target) => ({
     }
   });
   
-  const deleteGoal = (id) => ({
+  const deleteGoal = (userId,id) => ({
     type: 'DELETE_GOAL',
-    payload: {id: id}
+    payload: {
+      userId: userId,
+      id: id
+    }
   });
 
-  const decrementGoal = (id) => ({
+  const decrementGoal = (userId,id) => ({
     type: 'DECREMENT_GOAL',
-    payload: {id: id}
+    payload: {
+      userId: userId,
+      id: id}
   });
 
-  const incrementGoal = (id) => ({
+  const incrementGoal = (userId,id) => ({
     type: 'INCREMENT_GOAL',
-    payload: {id: id}
+    payload: {
+      userId: userId,
+      id: id}
   });
 
-  const addTodo = (todo) => ({
+  const addTodo = (userId,todo) => ({
     type: 'CREATE_TODO',
-    payload: {todo: todo}
+    payload: {
+      userId: userId,
+      todo: todo}
   });
 
-  const checkUncheckTodo=(id) =>({
+  const checkUncheckTodo=(userId,id) =>({
     type: 'CHECK_UNCHECK_TODO',
-    payload: {id: id}
+    payload: {
+      userId,
+      id: id}
   })
 
   const setTodo = (id,todo,completed) => ({

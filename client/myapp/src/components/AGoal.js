@@ -7,15 +7,15 @@ function Goal(props) {
   const dispatch = useDispatch();
 
   const incrementGoal=()=>{
-    dispatch(actions.incrementGoal(props.goal.id));
+    dispatch(actions.incrementGoal(props.user._id,props.goal.id));
   }
 
   const decrementGoal=()=>{
-    dispatch(actions.decrementGoal(props.goal.id));
+    dispatch(actions.decrementGoal(props.user._id,props.goal.id));
   }
 
   const deleteGoal = () => {
-    dispatch(actions.deleteGoal(props.goal.id));
+    dispatch(actions.deleteGoal(props.user._id,props.goal.id));
   };
 
   return (

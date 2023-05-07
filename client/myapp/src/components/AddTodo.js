@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import actions from '../actions';
 import { TextField, Checkbox, Button, Modal, Typography }  from '@mui/material';
 
-function AddTodo() {
+function AddTodo(props) {
   const dispatch=useDispatch();
   const [todoData, setTodoData] = useState({todo: ''});
   
@@ -13,7 +13,7 @@ function AddTodo() {
   };
 
   const addNewTodo=()=>{
-    dispatch(actions.addTodo(todoData.todo))
+    dispatch(actions.addTodo(props.user._id,todoData.todo))
     setTodoData({todo:''});
     document.getElementById('todo').value = '';
   }

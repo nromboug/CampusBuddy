@@ -7,7 +7,7 @@ function Todo(props) {
   const checkTodo=()=>{
     console.log("To-Do");
     console.log(props.todo.id);
-    dispatch(actions.checkUncheckTodo(props.todo.id))
+    dispatch(actions.checkUncheckTodo(props.user._id,props.todo.id))
   }
 return (
     <ListItem key={props.todo.id}>
