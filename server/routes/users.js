@@ -37,6 +37,8 @@ router.route('/login').post(async (req, res) => {
           res.status(400).send(e);
           return;
         }
+      } else {
+        return res.json(user);
       }
     } catch (e) {
       console.log(e);
