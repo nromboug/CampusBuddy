@@ -6,13 +6,9 @@ import { TextField, Checkbox, Button, Modal, Typography }  from '@mui/material';
 function AddTodo(props) {
   const dispatch=useDispatch();
   const [todoData, setTodoData] = useState({todo: ''});
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    //add to server
-  };
 
-  const addNewTodo=()=>{
+  const addNewTodo=(e)=>{
+    e.preventDefault();
     dispatch(actions.addTodo(props.user._id,todoData.todo))
     setTodoData({todo:''});
     document.getElementById('todo').value = '';
@@ -25,19 +21,24 @@ function AddTodo(props) {
   return (
     <div className='add'>
     <div className='input-selection'>
-      <label>
-        To Do:
-        <input
-          onChange={(e) => handleTodoChange(e)}
-          id='todo'
-          name='todo'
-          placeholder='Todo...'
+    <form onSubmit={(e) => addNewTodo(e)}>
+      <TextField
+          id="todo"
+          name="todo"
+          label="Todo"
           value={todoData.todo}
+          onChange={(e) => handleTodoChange(e)}
+          multiline
+          margin="normal"
+          helperText='Please enter a task to do.'
         />
-      </label>
+        <div class="buttons">
+          <Button type="submit">
+            Add Todo
+          </Button>
+        </div>
+      </form>
     </div>
-    <br/>
-    <button onClick={addNewTodo}>Add To Do</button>
   </div>
   );
 }

@@ -28,20 +28,22 @@ export default function Todo(props) {
   }, [dispatch]);
 
   return (
-    <div style={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}>
+    <div style={{ flex: '0 0 25%', bgcolor: 'background.paper' }}>
       <Card>
         <CardContent>
         <Box display="flex" alignItems="center" mb={2}>
             <Typography variant="h6" component="h3" flexGrow={1}>
               To-Do:
-            </Typography>
-            <Button
+            </Typography> 
+          </Box>
+          <Card sx={{ width: "100%", maxWidth: 350, margin: 'auto', marginTop: 2 }} variant="outlined">
+              <Button
                 onClick={()=>setBtnToggle(!addBtnToggle)}
               >
-              Add Todo
+              {addBtnToggle ? "Cancel": "Add Todo"}
             </Button>
             {addBtnToggle && <AddTodo user={props.user}/>}
-          </Box>
+            </Card>
           <List >
           {allTodo.map((todo) => {
             return <ATodo id={todo.id} todo={todo} user={props.user}/>

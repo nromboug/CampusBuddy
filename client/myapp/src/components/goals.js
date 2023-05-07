@@ -30,14 +30,16 @@ function Goals(props) {
   
 
   return (
-    <div>
+    <div style={{ flex: '0 0 30%' }}>
       <Card>
       <CardContent>
         <Typography variant="h6" component="h2" flexGrow={1}>
           Goals
         </Typography>
-        <Button onClick={()=>setBtnToggle(!addBtnToggle)}>Add Goal</Button>
-        {addBtnToggle && <AddGoal user={props.user}/>}
+        <Card sx={{ width: "100%", maxWidth: 350, margin: 'auto', marginTop: 2 }} variant="outlined">
+          <Button onClick={()=>setBtnToggle(!addBtnToggle)}>{addBtnToggle ? "Cancel": "Add Goal"}</Button>
+          {addBtnToggle && <AddGoal user={props.user}/>}
+        </Card>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             {allGoals.map((goal) => {

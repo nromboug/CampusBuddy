@@ -19,7 +19,7 @@ function Goal(props) {
   };
 
   return (
-<Card key={props.goal.id} sx={{ maxWidth: 300, margin: 'auto', marginTop: 2 }}>
+<Card key={props.goal.id} sx={{ maxWidth: 400, margin: 'auto', marginTop: 2 }}>
     <CardContent>
         <Typography>
             {props.goal.goal} 
