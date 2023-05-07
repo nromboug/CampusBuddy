@@ -16,34 +16,26 @@ client.connect().then(()=>{});
         if (isNaN(req.body.progress) || isNaN(req.body.target)) {
             throw new Error('Progress and target must be numbers');
         }
-        let theKeys=await client.keys("*");
-        let userInfo="";
-        for(let i=0;i<theKeys.length;i++){
-            let theUser=await client.get(theKeys[i]);
-            if(JSON.parse(theUser).user){
-                userInfo=JSON.parse(theUser);
-                break;
-            }
+        if(!req.body.userId || !req.body.id){
+            throw new Error('UserId and GoalId are required');
         }
-        let pushGoal=await thegoals.addGoal(userInfo.user._id,req.body.id,req.body.goal,req.body.progress, req.body.target);
+        if(!req.body.goal || req.body.goal.trim().length===0){
+            throw new Error('Goal is required');
+        }
+        let pushGoal=await thegoals.addGoal(req.body.userId,req.body.id,req.body.goal,req.body.progress, req.body.target);
         return res.json(pushGoal);
     }catch(e){
         res.json(e);
     }
   });
 
-  router.get('/', async (req, res) => {
+  router.post('/allGoals', async (req, res) => {
     try{
-        let theKeys=await client.keys("*");
-        let userInfo="";
-        for(let i=0;i<theKeys.length;i++){
-            let theUser=await client.get(theKeys[i]);
-            if(JSON.parse(theUser).user){
-                userInfo=JSON.parse(theUser);
-                break;
-            }
+        if(!req.body.id){
+            throw new Error('UserId is required');
         }
-        return res.json(userInfo);
+        let getUser=await theusers.getUserById(req.body.id);
+        res.json(getUser.goals);
     }catch(e){
         res.json(e);
     }
@@ -51,16 +43,10 @@ client.connect().then(()=>{});
 
   router.patch('/increment', async (req, res) => {
     try{
-        let theKeys=await client.keys("*");
-        let userInfo="";
-        for(let i=0;i<theKeys.length;i++){
-            let theUser=await client.get(theKeys[i]);
-            if(JSON.parse(theUser).user){
-                userInfo=JSON.parse(theUser);
-                break;
-            }
+        if(!req.body.userId || !req.body.id){
+            throw new Error('UserId and GoalId is required');
         }
-        let newUser=await thegoals.incrementGoal(userInfo.user._id,req.body.id);
+        let newUser=await thegoals.incrementGoal(req.body.userId,req.body.id);
         return res.json(newUser);
     }catch(e){
         res.json(e);
@@ -69,34 +55,22 @@ client.connect().then(()=>{});
 
   router.patch('/decrement', async (req, res) => {
     try{
-        let theKeys=await client.keys("*");
-        let userInfo="";
-        for(let i=0;i<theKeys.length;i++){
-            let theUser=await client.get(theKeys[i]);
-            if(JSON.parse(theUser).user){
-                userInfo=JSON.parse(theUser);
-                break;
-            }
+        if(!req.body.userId || !req.body.id){
+            throw new Error('UserId and GoalId is required');
         }
-        let newUser=await thegoals.decrementGoal(userInfo.user._id,req.body.id);
+        let newUser=await thegoals.decrementGoal(req.body.userId,req.body.id);
         return res.json(newUser);
     }catch(e){
         res.json(e);
     }
   });
 
-  router.delete('/', async (req, res) => {
+  router.delete('/:userId/:id', async (req, res) => {
     try{
-        let theKeys=await client.keys("*");
-        let userInfo="";
-        for(let i=0;i<theKeys.length;i++){
-            let theUser=await client.get(theKeys[i]);
-            if(JSON.parse(theUser).user){
-                userInfo=JSON.parse(theUser);
-                break;
-            }
+        if(!req.params.userId || !req.params.id){
+            throw new Error('UserId and GoalId is required');
         }
-        let newUser=await thegoals.deleteGoal(userInfo.user._id,req.body.id);
+        let newUser=await thegoals.deleteGoal(req.params.userId,req.params.id);
         return res.json(newUser);
     }catch(e){
         res.json(e);

@@ -12,7 +12,7 @@ const goalsReducer = (state = initalState, action) => {
   switch (type) {
     case 'CREATE_GOAL':
       console.log('payload', payload);
-      const newGoal = { id: uuid(), goal: payload.goal, progress: 0, target: payload.target };
+      const newGoal = { userId: payload.userId, id: uuid(), goal: payload.goal, progress: 0, target: payload.target };
       axios.post("http://localhost:3001/goals", newGoal)
       .then(response => {
         console.log('response', response);
@@ -31,13 +31,13 @@ const goalsReducer = (state = initalState, action) => {
         copyState = [...state];
         index = copyState.findIndex((x) => x.id === payload.id);
         copyState.splice(index, 1);
-        axios.delete("http://localhost:3001/goals",{id: payload.id});
+        axios.delete(`http://localhost:3001/goals/${payload.userId}/${payload.id}`);
         return [...copyState]; 
     case 'DECREMENT_GOAL':
         copyState = state.map((goal) => {
         if (goal.id === payload.id && goal.progress!==0) {
             const newProgress = goal.progress - 1;
-            axios.patch("http://localhost:3001/goals/decrement",{id:goal.id});
+            axios.patch("http://localhost:3001/goals/decrement",{userId: payload.userId,id:goal.id});
             return {...goal, progress: newProgress};
         }
           return goal;
@@ -47,7 +47,7 @@ const goalsReducer = (state = initalState, action) => {
         copyState = state.map((goal) => {
         if (goal.id === payload.id && goal.progress < goal.target) {
             const newProgress = goal.progress + 1;
-            axios.patch("http://localhost:3001/goals/increment",{id:goal.id});
+            axios.patch("http://localhost:3001/goals/increment",{userId: payload.userId,id:goal.id});
             return {...goal, progress: newProgress};
             }
             return goal;

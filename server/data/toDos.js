@@ -4,7 +4,16 @@ const userData = require('./users');
 const validation = require('../validation');
 const { ObjectId } = require('mongodb');
 
-const createTodoItem = async (userId,id,todo, completed) => {
+const createTodoItem = async (userId,id,todo,completed) => {
+    if(!userId || !id){
+        throw "Error: UserId/TodoId is required"
+    }
+    if(!todo || todo.trim().length===0){
+        throw "Error:Todo is required"
+    }
+    if(typeof completed !== "boolean"){
+        throw "Error: Completed needs to be a boolean value"
+    }
     const usersCollection = await users();
     let aUser = await userData.getUserById(userId);
     let updatedTodos = [...aUser.todo, {_id: id, todo: todo, completed: completed}];
@@ -14,19 +23,25 @@ const createTodoItem = async (userId,id,todo, completed) => {
 }
 
 const getTodosByUser = async (userId) => {
+    if(!userId){
+        throw "Error: UserId is required"
+    }
     let aUser = await userData.getUserById(userId);
     return aUser.todo;
 }
 
 const updateTodo=async(userId,id)=>{
+    if(!userId || !id){
+        throw "Error: UserId and TodoId are required"
+    }
     const usersCollection = await users();
     let aUser = await userData.getUserById(userId);
     let allTodos = aUser.todo;
     for (let i = 0; i < allTodos.length; i++) {
-      if (allTodos[i].id === id) {
+      if (allTodos[i]._id === id) {
         let updateComplete = !Boolean(allTodos[i].completed);
         allTodos[i] = {
-          id: allTodos[i].id,
+          _id: allTodos[i]._id,
           todo: allTodos[i].todo,
           completed: updateComplete
         };
@@ -38,76 +53,6 @@ const updateTodo=async(userId,id)=>{
     throw "Error: Todo not found";
   };  
   
-
-/*
-const getTodoById = async (id) => {
-    if (!id.trim() || !ObjectId.isValid(id))
-        throw 'Must provide valid id';
-    id = id.trim();
-    const todoCollection = await todos();
-
-    const todos = await todoCollection.find({ _id: new ObjectId(id) }).toArray();
-
-    return todos;
-
-}
-
-const deleteTodo = async (id) => {
-    if (!id.trim() || !ObjectId.isValid(id))
-        throw 'Must provide valid id';
-
-    const todoCollection = await todos();
-    
-    const deleted = await todoCollection.deleteOne({ _id: new ObjectId(id) });
-
-    if (deleted.deletedCount !== 1) {
-        throw "not deleted";
-    }
-
-    return deleted;
-}
-
-const markFinished = async (id) => {
-    if (!id.trim() || !ObjectId.isValid(id))
-        throw 'Must provide valid id';
-
-    const todoCollection = await todos();
-
-    const updated = await todoCollection.updateOne(
-        {
-            _id: new ObjectId(id)
-        }, {
-        $set: { finished: true }
-    }).toArray();
-
-    if (updated) {
-        throw "not deleted";
-    }
-
-    return todos;
-}
-
-const markUnfinished = async (id) => {
-    if (!id.trim() || !ObjectId.isValid(id))
-        throw 'Must provide valid id';
-
-    const todoCollection = await todos();
-
-    const updated = await todoCollection.updateOne(
-        {
-            _id: new ObjectId(id)
-        }, {
-        $set: { finished: false }
-    }).toArray();
-
-    if (updated) {
-        throw "not deleted";
-    }
-
-    return todos;
-}
-
-*/
 module.exports = {
     createTodoItem,
     getTodosByUser,

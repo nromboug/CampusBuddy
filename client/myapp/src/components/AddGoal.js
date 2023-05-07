@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import actions from '../actions';
 
-function AddGoal() {
+function AddGoal(props) {
   const dispatch=useDispatch();
   const [formData, setFormData] = useState({goal: '', target: ''});
 
@@ -16,7 +16,7 @@ function AddGoal() {
 
   const addNewGoal=()=>{
     console.log("ran here");
-    dispatch(actions.addGoal(formData.goal,formData.target));
+    dispatch(actions.addGoal(props.user._id,formData.goal,formData.target));
     setFormData({ goal: '', target: '' });
     document.getElementById('goal').value = '';
     document.getElementById('target').value = '';
