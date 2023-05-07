@@ -108,7 +108,8 @@ let exportedMethods = {
                                 day: date.getUTCDate(),
                                 month: date.getUTCMonth(),
                                 year: date.getUTCFullYear()
-                            }
+                            },
+                            longest: longest
                         }
                     })
                 return { streak: "extended" }
