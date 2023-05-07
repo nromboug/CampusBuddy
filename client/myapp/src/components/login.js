@@ -29,34 +29,23 @@ const Login = (props) => {
         event.preventDefault();
         console.log(document.getElementById('Email').value)
 
-        signInWithEmailAndPassword(auth, document.getElementById('Email').value, document.getElementById('password').value)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                // console.log(userCredential);
-                // // ...
-                // console.log(userCredential._tokenResponse.idToken)
-                axios.post('http://localhost:3001/users/login', {
-                    idToken: userCredential._tokenResponse.idToken
-                })
-                    .then(function (response) {
-                        const {data} = response;
-                        props.setUserInfo(data);
-                        console.log(data);
-                        navigate('/home')
-                    })
-                    .catch(function (error) {
-                        console.log('err',error);
-                    });
-
-
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, document.getElementById('Email').value, document.getElementById('password').value);
+            // Signed in 
+            const user = userCredential.user;
+            // console.log(userCredential);
+            // // ...
+            // console.log(userCredential._tokenResponse.idToken)
+            const { data } = await axios.post('http://localhost:3001/users/login', {
+                idToken: userCredential._tokenResponse.idToken
             })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorMessage)
-                setError(true);
-            });
+            props.setUserInfo(data);
+            console.log(data);
+            navigate('/home')
+        } catch (e) {
+            console.log(e)
+            setError(true);
+        }
     };
 
     if (props.user) {
