@@ -21,6 +21,7 @@ let exportedMethods = {
                     goals:[], 
                     todo: [],
                     streak: 1,
+                    longest: 1,
                     lastLogin: {
                         year: date.getUTCFullYear(),
                         month: date.getUTCMonth(),
@@ -96,6 +97,9 @@ let exportedMethods = {
             if (day === date.getUTCDate())
                 return { streak: 'no change' };
             if (day + 1 === date.getUTCDate()) {
+                let longest = findUser.longest;
+                if (findUser.streak+1 > longest)
+                    longest = findUser.streak+1;
                 const updated = await userCollection.updateOne(
                     { _id: id },
                     {

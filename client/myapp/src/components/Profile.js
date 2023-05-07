@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core';
 import axios from 'axios';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,7 +72,11 @@ const Profile = (props) => {
             Rewards/Certificates
         </h2>
         <p>
-            Streaks
+            Login Streak: {props.user.streak} {props.user.streak >= props.user.longest && <EmojiEventsIcon style={{ color: '#d1ca00' }} />}
+            <br />
+            {props.user.streak < props.user.longest && 'Longest streak: ' + props.user.longest}
+            <br /> 
+            Login every day to increase your login streak!
         </p>
         <p>
             Profile Badges

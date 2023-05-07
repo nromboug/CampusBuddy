@@ -30,7 +30,8 @@ router.route('/login').post(async (req, res) => {
         try {
           const streak = await theusers.updateStreak(user._id);
           console.log(streak);
-          res.json(user);
+          const userUpdated = await theusers.getUserById(uid);
+          res.json(userUpdated);
           return;
         } catch (e) {
           console.log(e);
