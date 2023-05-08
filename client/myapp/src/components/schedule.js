@@ -11,7 +11,7 @@ import axios from 'axios';
 import AddSession from './modals/AddSession';
 
 export default function Schedule(props) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(new Date().setHours(0,0,0,0)));
   const [sessions, setSessions] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -49,12 +49,22 @@ export default function Schedule(props) {
     setShowAddModal(false);
   };
 
-  const filteredSessions = sessions.filter(
-    (session) => (new Date(session.start)) <= selectedDate && (new Date(session.end)) >= selectedDate
-  );
+  const filteredSessions = sessions.filter((session) => {
+    const sessionStart = new Date(session.start);
+    const sessionEnd = new Date(session.end);
+    const selectedDateTime = selectedDate.getTime();
+    const sessionStartDateTime = sessionStart.setHours(0, 0, 0, 0);
+    const sessionEndDateTime = sessionEnd.setHours(23, 59, 59, 999);
+  
+    return (
+      selectedDateTime === sessionStartDateTime ||
+      selectedDateTime === sessionEndDateTime ||
+      (selectedDateTime > sessionStartDateTime && selectedDateTime < sessionEndDateTime)
+    );
+  });
 
   return (
-    <div>
+    <div style={{ flex: '0 0 35%' }}>
       <Card>
       <CardContent>
         <Typography variant="h6" component="h2" flexGrow={1}>

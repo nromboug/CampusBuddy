@@ -41,13 +41,13 @@ router.post('/allTodos', async (req, res) => {
 
   router.patch('/', async (req, res) => {
     try{
-        if(!req.body.id || !req.body.userId){
-            throw new Error('UserId and TodoId are required');
+        if(!req.body.id){
+            throw new Error('TodoId is required');
         }
-        let newUser=await thetodos.updateTodo(req.body.userId,req.body.id);
+        let newUser=await thetodos.updateTodo(req.session.user._id,req.body.id);
         return res.json(newUser);
     }catch(e){
-        res.json(e);
+        res.status(400).json(e);
     }
   });
   

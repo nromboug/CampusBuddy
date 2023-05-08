@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ReactModal from 'react-modal';
-import { TextField, Checkbox, Button, FormControlLabel, Typography }  from '@mui/material';
+import { TextField, Checkbox, Button, FormControlLabel, Backdrop  }  from '@mui/material';
 import axios from 'axios';
 
 export default function AddSession({ isOpen, handleClose, currentUser, addSessionToState }) {
@@ -10,7 +10,7 @@ export default function AddSession({ isOpen, handleClose, currentUser, addSessio
   const [isPrivate, setPrivate] = useState(false);
   const [password, setPassword] = useState(null);
   const [guests, setGuests] = useState([]);
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     //name, start, end, isPrivate, host, password
@@ -74,7 +74,8 @@ export default function AddSession({ isOpen, handleClose, currentUser, addSessio
             shrink: true,
           }}
         />
-        <FormControlLabel
+        <div>
+          <FormControlLabel
           control={<Checkbox
             checked={isPrivate}
             onChange={(e) => setPrivate(e.target.checked)}
@@ -90,7 +91,9 @@ export default function AddSession({ isOpen, handleClose, currentUser, addSessio
             fullWidth
             margin="normal"
         />
-        : <span>Anyone can RSVP to the event.</span>}
+        : <span>In public sessions, anyone can RSVP to the event.</span>}
+        </div>
+        
         <div class="buttons">
           <Button type="submit" variant="contained">
             Add Session

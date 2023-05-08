@@ -5,8 +5,8 @@ const admin = require('firebase-admin')
 const data = require('../data');
 const validation = require('../validation');
 const theusers = data.users;
-const redis=require('redis');
-const client=redis.createClient();
+const redis = require('redis');
+const client = redis.createClient();
 
 client.on('error', (error) => {
     console.error(error)
@@ -18,44 +18,42 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
-router
-    .route('/login')
-    .post(async (req, res) => {
-        console.log('login');
-        let uid = undefined;
-        admin
-            .auth()
-            .verifyIdToken(req.body.idToken)
-            .then(function (decodedToken) {
-                uid = decodedToken.uid;
-                theusers.getUserById(uid).then(user => {
-                    if (!req.session.user) { // Check if session already exists
-                        req.session.user = user;
-                        theusers.updateStreak(user._id).then(
-                        streak => console.log(streak)
-                    ).catch(
-                        e => console.log(e)
-                    )
-                        //req.session.save()
-                      }
-                    res.json(user);
-                    return
-                })
-            })
-            .catch(function (error) {
-                console.log(error);
-                res.status(400).json({error: error})
-                return
-            })
-    })
+router.route('/login').post(async (req, res) => {
+    console.log('login');
+    let uid = undefined;
+    try {
+      const decodedToken = await admin.auth().verifyIdToken(req.body.idToken);
+      uid = decodedToken.uid;
+      const user = await theusers.getUserById(uid);
+      if (!req.session.user) {
+        req.session.user = user;
+        try {
+          const streak = await theusers.updateStreak(user._id);
+          console.log(streak);
+          const userUpdated = await theusers.getUserById(uid);
+          res.json(userUpdated);
+          return;
+        } catch (e) {
+          console.log(e);
+          res.status(400).send(e);
+          return;
+        }
+      } else {
+        return res.json(user);
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(400).json(e);
+    }
+  });
 
 router
     .route('/logout')
     .get(async (req, res) => {
         console.log('logout')
         req.session.destroy();
-        res.json({success: "logged out successfully."})
-        
+        res.json({ success: "logged out successfully." })
+
     })
 
 router.post('/signup', async (req, res) => {
