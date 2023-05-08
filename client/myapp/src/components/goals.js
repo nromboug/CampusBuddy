@@ -31,7 +31,7 @@ function Goals(props) {
 
   return (
     <div style={{ flex: '0 0 30%' }}>
-      <Card>
+      <Card style={{ backgroundColor: "#d3f5e8" }}>
       <CardContent>
         <Typography variant="h6" component="h2" flexGrow={1}>
           Goals
