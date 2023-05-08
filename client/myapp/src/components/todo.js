@@ -29,10 +29,10 @@ export default function Todo(props) {
 
   return (
     <div style={{ flex: '0 0 25%', bgcolor: 'background.paper' }}>
-      <Card>
+      <Card style={{ backgroundColor: "#d3f5e8" }}>
         <CardContent>
         <Box display="flex" alignItems="center" mb={2}>
-            <Typography variant="h6" component="h3" flexGrow={1}>
+            <Typography variant="h6" component="h2" flexGrow={1}>
               To-Do:
             </Typography> 
           </Box>

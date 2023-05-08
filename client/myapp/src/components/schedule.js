@@ -65,7 +65,7 @@ export default function Schedule(props) {
 
   return (
     <div style={{ flex: '0 0 35%' }}>
-      <Card>
+      <Card style={{ backgroundColor: "#d3f5e8" }}>
       <CardContent>
         <Typography variant="h6" component="h2" flexGrow={1}>
           Daily Schedule
@@ -74,17 +74,17 @@ export default function Schedule(props) {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box display="flex" alignItems="center" mb={2}>
-              <Button onClick={handlePrevDate}>Previous</Button>
+              <Button style={{ color: '#1d5088' }} onClick={handlePrevDate}>Previous</Button>
               <Typography variant="subtitle1" component="span" flexGrow={1} mx={2}>
                 {selectedDate.toLocaleDateString()}
               </Typography>
-              <Button onClick={handleNextDate}>Next</Button>
+              <Button style={{ color: '#1d5088' }} onClick={handleNextDate}>Next</Button>
           </Box>
           <Box display="flex" alignItems="center" mb={2}>
             <Typography variant="h6" component="h3" flexGrow={1}>
               Sessions
             </Typography>
-            <Button
+            <Button style={{ color: '#1d5088' }} 
                 onClick={handleOpenAddModal}
               >
                 Add Session

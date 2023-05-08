@@ -2,6 +2,14 @@ import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core';
 import axios from 'axios';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import {
+  Box,
+  Button,
+  Card,
+  Input,
+  Grid,
+  Typography,
+} from '@mui/material';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,23 +59,25 @@ const Profile = (props) => {
 
   return (
     <div className={classes.root}>
-      <form onSubmit={handleSubmit}>
-        <label for='profile-picture' >Profile Picture: </label>
-        <input type='file' name='file' id='profile-picture'onChange={handleFileChange}></input>
-        <button type='submit'>Submit</button>
-      </form>
-        <h1>
-            Profile
-        </h1>
-        {imageUrl && <img src={imageUrl} alt="uploaded image" />}
-        <div className='empty-div'></div>
+      <h1>
+          Profile
+      </h1>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
         <h2>
             Account Settings
         </h2>
-        <div className='empty-div'></div>
+        <form onSubmit={handleSubmit}>
+        <label for='profile-picture' >Profile Picture: </label>
+        <Input type='file' name='file' id='profile-picture'onChange={handleFileChange}></Input>
+        <Button type='submit'>Submit</Button>
+        </form>
+        {imageUrl && <img src={imageUrl} alt="uploaded image" />}
         <h3>Name:</h3><p>{props.user.name}</p>
         <h3>Username:</h3><p>{props.user.username}</p>
-        <h3>Email:</h3><p>{props.user.email}</p>
+        <h3>Email:</h3><p>{props.user.email}</p>  
+        </Grid>
+        <Grid item xs={6}>
         <h2>
             Rewards/Certificates
         </h2>
@@ -81,6 +91,8 @@ const Profile = (props) => {
         <p>
             Profile Badges
         </p>
+        </Grid>
+      </Grid>
     </div>
   );
 };
