@@ -36,7 +36,7 @@ const goalsReducer = (state = initalState, action) => {
           }
           return todo;
         });
-        //axios.patch("http://localhost:3001/todos",{userId: payload.userId,id:payload.id});
+        
         return [...copyState];
     default:
       return state;
