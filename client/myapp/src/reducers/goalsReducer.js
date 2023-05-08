@@ -31,13 +31,11 @@ const goalsReducer = (state = initalState, action) => {
         copyState = [...state];
         index = copyState.findIndex((x) => x.id === payload.id);
         copyState.splice(index, 1);
-        axios.delete(`http://localhost:3001/goals/${payload.userId}/${payload.id}`);
         return [...copyState]; 
     case 'DECREMENT_GOAL':
         copyState = state.map((goal) => {
         if (goal.id === payload.id && goal.progress!==0) {
             const newProgress = goal.progress - 1;
-            axios.patch("http://localhost:3001/goals/decrement",{userId: payload.userId,id:goal.id});
             return {...goal, progress: newProgress};
         }
           return goal;
@@ -47,7 +45,6 @@ const goalsReducer = (state = initalState, action) => {
         copyState = state.map((goal) => {
         if (goal.id === payload.id && goal.progress < goal.target) {
             const newProgress = goal.progress + 1;
-            axios.patch("http://localhost:3001/goals/increment",{userId: payload.userId,id:goal.id});
             return {...goal, progress: newProgress};
             }
             return goal;
