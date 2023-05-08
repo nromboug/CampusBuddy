@@ -5,11 +5,8 @@ import axios from 'axios';
 import { useState } from 'react';
 function Todo(props) {
     const dispatch = useDispatch();
-   const checkUncheck=()=>{
-    async function fetchData(){
-      await axios.patch("http://localhost:3001/todos",{userId: props.user._id,id:props.todo.id});
-    }
-    fetchData();
+   const checkUncheck= async()=>{
+    await axios.patch("http://localhost:3001/todos",{id:props.todo.id});
     dispatch(actions.checkUncheckTodo(props.user._id,props.todo.id));
    }
     return (
