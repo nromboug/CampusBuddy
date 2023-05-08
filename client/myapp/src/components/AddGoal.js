@@ -26,7 +26,7 @@ function AddGoal(props) {
   return (
     <div className='add'>
       <div className='input-selection'>
-      <form onSubmit={addNewGoal}>
+      <form onSubmit={(e) => addNewGoal(e)}>
         <TextField
           id="goal"
           name="goal"
@@ -34,6 +34,7 @@ function AddGoal(props) {
           value={formData.goal}
           onChange={(e) => handleGoalChange(e)}
           multiline
+          required
           margin="normal"
           helperText="Please enter a goal that can be tracked numerically."
         />
@@ -44,10 +45,11 @@ function AddGoal(props) {
           type="number"
           value={formData.target}
           onChange={(e) => handleTargetChange(e)}
+          required
           helperText="Please enter the target number."
         />
         <div class="buttons">
-          <Button onClick={(e) => addNewGoal(e)} type="submit">
+          <Button type="submit">
             Add Goal
           </Button>
         </div>
