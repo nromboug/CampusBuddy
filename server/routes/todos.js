@@ -26,19 +26,16 @@ router.post('/allTodos', async (req, res) => {
   router.post('/', async (req, res) => {
     try{
         req.body.id=xss(req.body.id);
-        req.body.userId=xss(req.body.id);
-        req.body.todo=xxs(req.body.todo);
-        req.body.completed=xxs(req.body.completed);
+        req.body.userId=xss(req.body.userId);
+        req.body.todo=xss(req.body.todo);
+        req.body.completed=xss(req.body.completed);
         if(!req.body.id || !req.body.userId){
             return res.status(400).send("UserId and TodoId are required");
         }
         if(!req.body.todo || req.body.todo.trim().length===0){
             return res.status(400).send("Todo is required");
         }
-        if (req.body.completed!==true && req.body.completed!==false) {
-            return res.status(400).send("Completed needs to be a boolean value");
-        }
-        let pushTodo=await thetodos.createTodoItem(req.body.userId,req.body.id,req.body.todo,req.body.completed);
+        let pushTodo=await thetodos.createTodoItem(req.body.userId,req.body.id,req.body.todo,false);
         return res.json(pushTodo);
     }catch(e){
         return res.status(500).send(e);

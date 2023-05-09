@@ -71,6 +71,8 @@ const incrementGoal = async (userId, goalid) => {
                 target: allGoals[i].target,
                 completionDate: updatedProgress === allGoals[i].target ? new Date() : allGoals[i].completionDate
                 };
+                if (updatedProgress === allGoals[i].target)
+                    await userData.setAchievement(userId, 'finishGoal')
                 await usersCollection.updateOne({ _id: userId }, { $set: { goals: allGoals } });
             let getNewUser = await userData.getUserById(userId);
             return getNewUser;

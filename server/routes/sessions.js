@@ -2,6 +2,7 @@ const Router = require('express').Router
 const router = Router();
 const data = require('../data');
 const sessionData = data.sessions;
+const userData = require('../data/users');
 const validation = require('../data/validation');
 const xss=require('xss');
 
@@ -172,6 +173,7 @@ router
     try {
       const {name, start, end, isPrivate, host, password} = rData;
       const newSession = await sessionData.createSession(name, start, end, isPrivate, host, password);
+      await userData.setAchievement(req.session.user._id, 'createSession');
       res.json(newSession);
     } catch (e) {
       res.status(500).json({error: e});
