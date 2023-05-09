@@ -13,8 +13,14 @@ function AddGoal(props) {
     setFormData((prev)=>({...prev,[e.target.name]: e.target.value}));
   }
 
-  const handleTargetChange=(e)=>{
+  const handleTargetChange=(e)=>{  
     setFormData((prev)=>({...prev,[e.target.name]: e.target.value}));
+  }
+
+  function handleKeyPress(e) {
+    if (e.key === 'e') {
+      e.preventDefault();
+    }
   }
 
   const addNewGoal = async (e) => {
@@ -50,6 +56,7 @@ function AddGoal(props) {
           label="Target"
           type="number"
           value={formData.target}
+          onKeyPress={(e) => handleKeyPress(e)}
           onChange={(e) => handleTargetChange(e)}
           required
           inputProps={{ min: 0 }}
