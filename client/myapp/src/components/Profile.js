@@ -56,7 +56,7 @@ const Profile = (props) => {
       setImageUrl(response.data.url)
     }
   };
-
+  
   return (
     <div className={classes.root}>
       <h1>
@@ -90,6 +90,16 @@ const Profile = (props) => {
         </p>
         <p>
             Profile Badges
+        </p>
+        <br/>
+        <h2>
+            Weekly Reflections
+        </h2>
+        <p>
+          Number of Goals Completed this Week: {props.user.goals.filter((goal) => goal.completionDate && Math.ceil(Math.abs(new Date() -  new Date(goal.completionDate)) / (1000 * 60 * 60 * 24)) <= 7).length} 
+        </p>
+        <p>
+          Number of Goals in Progress: {props.user.goals.filter((goal) => !goal.completionDate).length} 
         </p>
         </Grid>
       </Grid>

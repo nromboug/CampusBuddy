@@ -18,7 +18,7 @@ const addGoal=async(userId,id,goal,progress,target)=>{
     }
     const usersCollection = await users();
     let aUser = await userData.getUserById(userId);
-    let updatedGoals = [...aUser.goals, {_id: id, goal: goal, progress: progress, target: target}];
+    let updatedGoals = [...aUser.goals, {_id: id, goal: goal, progress: progress, target: target, completionDate: null}];
     await usersCollection.updateOne({_id: userId}, {$set: {goals: updatedGoals}});
     let getNewUser=await userData.getUserById(userId);
     return getNewUser;
@@ -67,7 +67,8 @@ const incrementGoal = async (userId, goalid) => {
                 _id: allGoals[i]._id,
                 goal: allGoals[i].goal,
                 progress: updatedProgress,
-                target: allGoals[i].target
+                target: allGoals[i].target,
+                completionDate: updatedProgress === allGoals[i].target ? new Date() : allGoals[i].completionDate
                 };
                 await usersCollection.updateOne({ _id: userId }, { $set: { goals: allGoals } });
             let getNewUser = await userData.getUserById(userId);
@@ -96,7 +97,8 @@ const decrementGoal=async(userId,goalid)=>{
             _id: allGoals[i]._id,
             goal: allGoals[i].goal,
             progress: updatedProgress,
-            target: allGoals[i].target
+            target: allGoals[i].target,
+            completionDate: null
           };
           await usersCollection.updateOne({ _id: userId }, { $set: { goals: allGoals } });
           let getNewUser = await userData.getUserById(userId);

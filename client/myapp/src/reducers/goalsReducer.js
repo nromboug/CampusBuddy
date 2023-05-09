@@ -1,5 +1,3 @@
-import {v4 as uuid} from 'uuid';
-import axios from 'axios'
 const initalState = [
 ];
 
@@ -12,14 +10,7 @@ const goalsReducer = (state = initalState, action) => {
   switch (type) {
     case 'CREATE_GOAL':
       console.log('payload', payload);
-      const newGoal = { userId: payload.userId, id: uuid(), goal: payload.goal, progress: 0, target: payload.target };
-      axios.post("http://localhost:3001/goals", newGoal)
-      .then(response => {
-        console.log('response', response);
-      })
-      .catch(error => {
-        console.log('error', error);
-      });
+      const newGoal = { userId: payload.userId, id: payload.goalid, goal: payload.goal, progress: 0, target: payload.target };
       return [...state, newGoal];
     case 'SET_GOAL':
         if (state.some((goal) => goal.id === payload.id)) {

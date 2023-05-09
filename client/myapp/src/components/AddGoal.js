@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import actions from '../actions';
 import { TextField, Checkbox, Button, Modal, Typography }  from '@mui/material';
+import axios from 'axios';
+import {v4 as uuid} from 'uuid';
 
 function AddGoal(props) {
   const dispatch=useDispatch();
@@ -15,9 +17,13 @@ function AddGoal(props) {
     setFormData((prev)=>({...prev,[e.target.name]: e.target.value}));
   }
 
-  const addNewGoal=(e)=>{
+  const addNewGoal = async (e) => {
     e.preventDefault();
-    dispatch(actions.addGoal(props.user._id,formData.goal,formData.target));
+    const goalid = uuid();
+    const newGoal = { userId: props.user._id, id: goalid, goal: formData.goal, progress: 0, target: formData.target };
+    const {data} = await axios.post("http://localhost:3001/goals", newGoal);
+    props.setUserInfo(data);
+    dispatch(actions.addGoal(props.user._id,goalid,formData.goal,formData.target));
     setFormData({ goal: '', target: '' });
     document.getElementById('goal').value = '';
     document.getElementById('target').value = '';
