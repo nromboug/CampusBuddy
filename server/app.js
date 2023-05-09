@@ -57,7 +57,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/', (req, res, next) => {
     if (req.session.user 
-        || req.originalUrl === '/users/login' 
+        || req.originalUrl === '/users/signup' 
         || req.originalUrl === '/users/login'
         || req.originalUrl === '/users/logout') {
         req.session.user ? console.log('in session!') : console.log('logging in');
