@@ -38,16 +38,34 @@ module.exports = {
     return arr;
   }, 
 
-  checkDate(date, varName) {
+  checkStartDate(date, varName) {
     if (!date) {
       throw `You must provide a date for ${varName}`;
     }
     if (isNaN(Date.parse(date))) {
       throw `Error: ${date} is not a valid date for ${varName}`;
     }
+    const now=new Date();
+    const inputDate=new Date(date);
+    if(inputDate<now){
+      throw  `Error: ${varName} must be a future date`;
+    }
     return date;
   }, 
-
+  checkEndDate(startDate, endDate,varName) {
+    if (!startDate || !endDate) {
+      throw `You must provide a date for ${varName}`;
+    }
+    if (isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate))) {
+      throw `Error: ${date} is not a valid date for ${varName}`;
+    }
+    const start=new Date(startDate);
+    const end=new Date(endDate);
+    if(start>end){
+      throw  `Error: ${varName} can't have start date be future date and end date be past date`;
+    }
+    return date;
+  },
   checkBoolean(bool) {
     if (typeof bool !== 'boolean') {
       throw 'Error: Expecting a boolean value';

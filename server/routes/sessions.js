@@ -174,8 +174,8 @@ router
       req.body.isPrivate=xss(req.body.isPrivate);
       req.body.host=xss(req.body.host)
       req.body.name = validation.checkString(req.body.name, 'Name');
-      req.body.start = validation.checkDate(req.body.start, 'Start Date');
-      req.body.end = validation.checkDate(req.body.end, 'End Date');
+      req.body.start = validation.checkStartDate(req.body.start, 'Start Date');
+      req.body.end = validation.checkEndDate(req.body.start,req.body.end,'End Date');
       req.body.isPrivate = validation.checkBoolean(Boolean(req.body.isPrivate));
       req.body.host = validation.checkString(req.body.host, 'Host');
       //rData.guests = validation.checkStringArray(rData.guests, 'Guests');
