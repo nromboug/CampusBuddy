@@ -52,6 +52,7 @@ function AddGoal(props) {
           value={formData.target}
           onChange={(e) => handleTargetChange(e)}
           required
+          inputProps={{ min: 0 }}
           helperText="Please enter the target number."
         />
         <div class="buttons">
