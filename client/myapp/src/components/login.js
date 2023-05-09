@@ -64,7 +64,7 @@ const Login = (props) => {
                 }}
                 noValidate
                 autoComplete="off"
-                class='userData-form'
+                className='userData-form'
                 onSubmit={handleSubmit}
             >
                 <div>

@@ -41,26 +41,34 @@ app.use(
 )
 
 
-app.use('/', (req, res, next) => {
-    if (req.session.user) {
-        console.log('in session!');
-    } else {
-        console.log('not in session');
-    }
-    next();
-})
-
-
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
 }
 ));
 
+
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 //app.use(fileUpload());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use('/', (req, res, next) => {
+    if (req.session.user 
+        || req.originalUrl === '/users/login' 
+        || req.originalUrl === '/users/login'
+        || req.originalUrl === '/users/logout') {
+        req.session.user ? console.log('in session!') : console.log('logging in');
+        next();
+    } else {
+        console.log('not in session');
+        res.status(401).json({error: 'not logged in'})
+        return;
+    }
+    
+})
 
 configRoutes(app);
 

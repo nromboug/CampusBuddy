@@ -12,7 +12,7 @@ const main = async () => {
     const s2 = await sessions.createSession("Public Event", new Date("2023-04-10T10:00:00Z"), new Date("2023-04-15T10:00:00Z"), false, "dummy2", null);
     const s3 = await sessions.createSession("Week Long Event", new Date("2023-05-05T10:00:00Z"), new Date("2023-05-12T10:00:00Z"), false, "dummy2", null);
     const s4 = await sessions.createSession("Big Event", new Date("2023-05-05T10:00:00Z"), new Date("2023-05-12T10:00:00Z"), false, "dummy3", null);
-    await sessions.updateSession(s4._id.toString(), { guests: ["dummy1"] });
+    await sessions.updateSession(s4._id.toString(), { guests: ["dummy1", "dummy3"] });
 
     // initialize users
 
@@ -32,7 +32,15 @@ const main = async () => {
             month: 4,
             day: 9
         },
-        image: null
+        image: null,
+        achievements: {
+            makeTodo: false,
+            finishTodo: false,
+            makeGoal: false,
+            finishGoal: false,
+            createSession: false,
+            joinSession: false
+        }
     }
 
     const dummy2 = {
@@ -49,7 +57,15 @@ const main = async () => {
             month: 4,
             day: 9
         },
-        image: null
+        image: null,
+        achievements: {
+            makeTodo: false,
+            finishTodo: false,
+            makeGoal: false,
+            finishGoal: false,
+            createSession: false,
+            joinSession: false
+        }
     }
 
     const dummy3 = {
@@ -66,7 +82,15 @@ const main = async () => {
             month: 4,
             day: 9
         },
-        image: null
+        image: null,
+        achievements: {
+            makeTodo: false,
+            finishTodo: false,
+            makeGoal: false,
+            finishGoal: false,
+            createSession: false,
+            joinSession: false
+        }
     }
 
     await userCollection.insertOne(dummy1);

@@ -42,7 +42,8 @@ function App() {
             console.log(data.data.image);
             setImageUrl(data.data.image);
           }
-          fecthData();
+          if (userInfo)
+            fecthData();
     },[userInfo,imageUrl]);
     const handleUrlChange=(url)=>{
         setImageUrl(url);
@@ -91,7 +92,7 @@ function App() {
                         <Route path='/' element={<AuthComponent user={userInfo} />}>
                         <Route path='/dashboard' element={<Dashboard user={userInfo} setUserInfo={setUserInfo} />} />
                         <Route path='/profile' element={<Profile user={userInfo} onImageUrlChange={handleUrlChange} setUserInfo={setUserInfo}/>} />
-                        <Route path='/sessions' element={<Sessions user={userInfo} />} />
+                        <Route path='/sessions' element={<Sessions user={userInfo} setUserInfo={setUserInfo}/>} />
                         </Route>
                     </Routes>
                 </div>

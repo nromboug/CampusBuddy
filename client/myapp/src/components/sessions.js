@@ -23,6 +23,7 @@ export default function Sessions(props) {
       } catch (e) {
         console.log(e);
         setError(true);
+        props.setUserInfo(undefined)
       }
     }
     setError(false);

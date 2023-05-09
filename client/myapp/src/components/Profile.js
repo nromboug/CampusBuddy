@@ -67,9 +67,15 @@ const Profile = (props) => {
 
     useEffect(() => {
         async function fecthData() {
-            let data = await axios.post("http://localhost:3001/users/AUser", { userId: props.user._id });
-            setImageUrl(data.data.image);
+            try {
+                let data = await axios.post("http://localhost:3001/users/AUser", { userId: props.user._id });
+                setImageUrl(data.data.image);
             props.onImageUrlChange(data.data.image);
+            } catch (err) {
+                props.setUserInfo(undefined);
+                return
+            }
+            
         }
         fecthData();
     });
@@ -84,7 +90,7 @@ const Profile = (props) => {
                         Account Settings
                     </h2>
                     <form onSubmit={handleSubmit}>
-                        <label for='profile-picture' >Profile Picture: </label>
+                        <label htmlFor='profile-picture' >Profile Picture: </label>
                         <Input type='file' name='file' id='profile-picture' onChange={handleFileChange}></Input>
                         <Button type='submit'>Submit</Button>
                     </form>
