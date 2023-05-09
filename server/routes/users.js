@@ -7,6 +7,7 @@ const validation = require('../validation');
 const theusers = data.users;
 const redis = require('redis');
 const client = redis.createClient();
+const xss = require('xss');
 
 client.on('error', (error) => {
     console.error(error)
@@ -21,8 +22,9 @@ admin.initializeApp({
 router.route('/login').post(async (req, res) => {
     console.log('login');
     let uid = undefined;
+    const idToken = xss(req.body.idToken);
     try {
-      const decodedToken = await admin.auth().verifyIdToken(req.body.idToken);
+      const decodedToken = await admin.auth().verifyIdToken(idToken);
       uid = decodedToken.uid;
       const user = await theusers.getUserById(uid);
       if (!req.session.user) {
