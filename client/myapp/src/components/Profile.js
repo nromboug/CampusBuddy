@@ -100,9 +100,6 @@ const Profile = (props) => {
                         Profile Achievements:
                     </h3>
                     <p>
-                        Log out and back in to refresh and see progress!
-                    </p>
-                    <p>
                         Make a todo {props.user.achievements.makeTodo && <CheckCircleIcon style={{ color: 'green' }} />}
                     </p>
                     <p>
