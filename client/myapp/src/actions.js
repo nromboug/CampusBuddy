@@ -1,7 +1,8 @@
-const addGoal = (userId,goal,target) => ({
+const addGoal = (userId,goalid,goal,target) => ({
     type: 'CREATE_GOAL',
     payload: {
       userId: userId,
+      goalid: goalid,
       goal: goal,
       target: target,
     }

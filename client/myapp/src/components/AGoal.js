@@ -8,17 +8,20 @@ function Goal(props) {
     const dispatch = useDispatch();
 
     const incrementGoal = async () => {
-        await axios.patch("http://localhost:3001/goals/increment",{userId: props.user._id,id:props.goal.id});
+        const {data} = await axios.patch("http://localhost:3001/goals/increment",{userId: props.user._id,id:props.goal.id});
+        props.setUserInfo(data);
         dispatch(actions.incrementGoal(props.user._id, props.goal.id));
     }
 
     const decrementGoal = async () => {
-        await axios.patch("http://localhost:3001/goals/decrement",{userId: props.user._id,id:props.goal.id});
+        const {data} = await axios.patch("http://localhost:3001/goals/decrement",{userId: props.user._id,id:props.goal.id});
+        props.setUserInfo(data);
         dispatch(actions.decrementGoal(props.user._id, props.goal.id));
     }
 
     const deleteGoal = async () => {
-        await axios.delete(`http://localhost:3001/goals/${props.user._id}/${props.goal.id}`);
+        const {data} = await axios.delete(`http://localhost:3001/goals/${props.user._id}/${props.goal.id}`);
+        props.setUserInfo(data);
         dispatch(actions.deleteGoal(props.user._id, props.goal.id));
     };
 
