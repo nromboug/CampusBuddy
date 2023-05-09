@@ -11,8 +11,8 @@ let exportedMethods = {
   async createSession(name, start, end, isPrivate, host, password) {
 
     name = validation.checkString(name, 'Name');
-    start = validation.checkDate(start, 'Start Date');
-    end = validation.checkDate(end, 'End Date');
+    start = validation.checkStartDate(start, 'Start Date');
+    end = validation.checkEndDate(start,end, 'End Date');
     isPrivate = validation.checkBoolean(isPrivate);
     host = validation.checkString(host, 'Host')
     if (password) {

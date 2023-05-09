@@ -190,6 +190,8 @@ router
     //name, start, end, isPrivate, host, guests, password
     try {
       //const {name, start, end, isPrivate, host, password} = rData;
+      console.log("Start: "+req.body.start);
+      console.log("End: "+req.body.end);
       const newSession = await sessionData.createSession(req.body.name, req.body.start, req.body.end, req.body.isPrivate, req.body.host, req.body.password);
       await userData.setAchievement(req.session.user._id, 'createSession');
       res.json(newSession);
