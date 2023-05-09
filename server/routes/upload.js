@@ -4,6 +4,7 @@ const multer = require('multer');
 const { identify, resize, convert } = require('imagemagick');
 const path = require('path');
 const data = require('../data');
+const xss=require('xss');
 const theusers = data.users;
 
 const storage = multer.diskStorage({
@@ -11,6 +12,7 @@ const storage = multer.diskStorage({
       cb(null, './uploads')
     },
     filename: (req, file, cb) => {
+      file.originalname=xss(file.originalname);
       cb(null, file.originalname)
     },
 });

@@ -41,6 +41,8 @@ const goalsReducer = (state = initalState, action) => {
             return goal;
         });
         return copyState;
+    case 'CLEAR_GOALS':
+          return [];
     default:
       return state;
   }

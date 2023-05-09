@@ -78,11 +78,16 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router
-    .route('/:id')
-    .get(async (req, res) => {
-        res.json('test')
-    })
-
+router.post('/AUser',async(req,res)=>{
+    try{
+        if(!req.body.userId){
+            return res.status(400).send("Not found");
+        }
+        const getUser=await theusers.getUserById(req.body.userId);
+        return res.json(getUser);
+    }catch(e){
+        return res.status(400).json({ title: "Sign Up", error: e });
+    }
+});
 
 module.exports = router

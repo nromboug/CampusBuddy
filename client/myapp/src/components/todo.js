@@ -13,6 +13,7 @@ export default function Todo(props) {
   const dispatch=useDispatch();
 
   useEffect(() => {
+    console.log(props.user.todo);
     async function fetchData() {
       let data = await axios.post("http://localhost:3001/todos/allTodos",{id: props.user._id});
       data = data.data;

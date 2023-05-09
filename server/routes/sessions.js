@@ -3,6 +3,7 @@ const router = Router();
 const data = require('../data');
 const sessionData = data.sessions;
 const validation = require('../data/validation');
+const xss=require('xss');
 
 const arraysEqual = (arr1, arr2) => arr1.length === arr2.length && arr1.every((e, i) => e === arr2[i]);
 
@@ -10,11 +11,13 @@ router
   .route('/:id')
   .get(async (req, res) => {
     try {
+      req.params.id=xss(req.params.id);
       req.params.id = validation.checkId(req.params.id, 'ID URL Param');
     } catch (e) {
       return res.status(400).json({error: e});
     }
     try {
+      req.params.id=xss(req.params.id);
       const session = await sessionData.readSession(req.params.id);
       res.json(session);
     } catch (e) {
@@ -23,8 +26,9 @@ router
   })
   .put(async (req, res) => {
     // name, start, end, isPrivate, host, guests, password
-    const updatedData = req.body;
+    const updatedData = xss(req.body);
     try {
+      req.params.id=xss(req.params.id);
       req.params.id = validation.checkId(req.params.id, 'ID url param');
       updatedData.name = validation.checkString(updatedData.name, 'Name');
       updatedData.start = validation.checkDate(updatedData.start, 'Start Date');
@@ -42,12 +46,14 @@ router
     }
 
     try {
+      req.params.id=xss(req.params.id);
       await sessionData.readSession(req.params.id);
     } catch (e) {
       return res.status(404).json({error: 'Session not found'});
     }
 
     try {
+      req.params.id=xss(req.params.id);
       const updatedSession = await sessionData.updateSession(req.params.id, updatedData);
       res.json(updatedSession);
     } catch (e) {
@@ -56,9 +62,10 @@ router
   })
   .patch(async (req, res) => {
     // name, start, end, isPrivate, host, guests, password
-    const requestBody = req.body;
+    const requestBody = xss(req.body);
     let updatedObject = {};
     try {
+      req.params.id=xss(req.params.id);
       req.params.id = validation.checkId(req.params.id, 'ID url param');
       if (requestBody.name)
         requestBody.name = validation.checkString(requestBody.name, 'Name');
@@ -78,6 +85,7 @@ router
       return res.status(400).json({error: e});
     }
     try {
+      req.params.id=xss(req.params.id);
       const old = await sessionData.readSession(req.params.id);
       if (requestBody.name && requestBody.name !== old.name)
         updatedObject.name = requestBody.name;
@@ -97,6 +105,7 @@ router
     }
     if (Object.keys(updatedObject).length !== 0) {
       try {
+        req.params.id=xss(req.params.id);
         const updatedSession = await sessionData.updateSession(req.params.id,updatedObject);
         res.json(updatedSession);
       } catch (e) {
@@ -111,16 +120,19 @@ router
   })
   .delete(async (req, res) => {
     try {
+      req.params.id=xss(req.params.id);
       req.params.id = validation.checkId(req.params.id, 'ID URL Param');
     } catch (e) {
       return res.status(400).json({error: e});
     }
     try {
+      req.params.id=xss(req.params.id);
       await sessionData.readSession(req.params.id);
     } catch (e) {
       return res.status(404).json({error: 'Session not found'});
     }
     try {
+      req.params.id=xss(req.params.id);
       await sessionData.deleteSession(req.params.id);
       res.status(200).json({deleted: true});
     } catch (e) {
@@ -140,7 +152,7 @@ router
     }
   })
   .post(async (req, res) => {
-    const rData = req.body;
+    const rData = xss(req.body);
     try {
       rData.name = validation.checkString(rData.name, 'Name');
       rData.start = validation.checkDate(rData.start, 'Start Date');
@@ -171,6 +183,7 @@ router
 .route('/user/:username')
 .get(async (req, res) => {
   try {
+    req.params.username=xss(req.params.username);
     req.params.username = validation.checkString(req.params.username);
     const list = await sessionData.getSessionsWithUser(req.params.username);
     res.json(list);
@@ -183,6 +196,8 @@ router
 .route('/private/:id')
 .post(async (req, res) => {
   try {
+    req.body.password=xss(req.body.password);
+    req.params.id=xss(req.params.id);
     req.body.password = validation.checkString(req.body.password);
     const valid = await sessionData.checkSession(req.params.id, req.body.password);
     res.json(valid);
