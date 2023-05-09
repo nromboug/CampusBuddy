@@ -10,7 +10,7 @@ Make sure that the docker daemon is running on your machine. Docker Desktop offe
 nice concise way to manage docker images/containers, and runs the daemon as well.
 ### Client (with Docker)
 1. In the `\CampusBuddy\client\myapp` run `docker build -t campus-buddy .` to build a docker image of the react app. Allow a few minutes for dependencies and libraries to download.
-2. Run `docker run -p 3000:3000 campus-buddy` to run the image in a container on port 3000. If you receive an error regarding the docker daemon, ensure the daemon is installed and running. Docker Desktop can show the status of image builds and active containers.
+2. Run `docker run -p 3000:3000 campus-buddy` to run the image in a container on port 3000. If you receive an error on either step regarding the docker daemon, ensure the daemon is installed and running. Docker Desktop can show the status of image builds and active containers.
 3. The client should be visible on `http://localhost:3000`.
 
 ### Client (without docker)
