@@ -70,35 +70,28 @@ router
   })
   .patch(async (req, res) => {
     // name, start, end, isPrivate, host, guests, password
-    //const requestBody = xss(req.body);
     let updatedObject = {};
     try {
       req.params.id=xss(req.params.id);
       req.params.id = validation.checkId(req.params.id, 'ID url param');
-      if (req.body.name)
-        req.body.name = validation.checkString(req.body.name, 'Name');
-      if (req.body.start)
-        //req.body.start=xss(req.body.start);
-        req.body.start = validation.checkDate(req.body.start, 'Start Date');
-      if (req.body.end)
-        //req.body.end = xss(req.body.end);
-        req.body.end = validation.checkDate(req.body.end, 'End Date');
-      if (req.body.isPrivate)
-        //req.body.isPrivate = xss(req.body.isPrivate);
-        req.body.isPrivate = validation.checkBoolean(Boolean(req.body.isPrivate));
-      if (req.body.host)
-        //req.body.host = xss(req.body.host);
-        req.body.host = validation.checkString(req.body.host, 'Host');
-      if (req.body.guests)
-        req.body.guests = validation.checkStringArray(req.body.guests, 'Guests');
-      if (req.body.password)
-        //req.body.password = xss(req.body.password);
-        req.body.password = validation.checkString(req.body.password, "Password");
+      if (req.body.name) 
+        req.body.name = validation.checkString(xss(req.body.name), 'Name');
+      if (req.body.start) 
+        req.body.start = validation.checkDate(xss(req.body.start), 'Start Date');
+      if (req.body.end) 
+        req.body.end = validation.checkDate(xss(req.body.end), 'End Date');
+      if (req.body.isPrivate) 
+        req.body.isPrivate = validation.checkBoolean(Boolean(xss(req.body.isPrivate)));
+      if (req.body.host) 
+        req.body.host = validation.checkString(xss(req.body.host), 'Host');
+      if (req.body.guests) 
+        req.body.guests = validation.checkStringArray(req.body.guests.map(str => xss(str)), 'Guests');
+      if (req.body.password) 
+        req.body.password = validation.checkString(xss(req.body.password), "Password");
     } catch (e) {
       return res.status(400).json({error: e});
     }
     try {
-      //req.params.id=xss(req.params.id);
       const old = await sessionData.readSession(req.params.id);
       if (req.body.name && req.body.name !== old.name)
         updatedObject.name = req.body.name;
