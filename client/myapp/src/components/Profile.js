@@ -67,9 +67,15 @@ const Profile = (props) => {
 
     useEffect(() => {
         async function fecthData() {
-            let data = await axios.post("http://localhost:3001/users/AUser", { userId: props.user._id });
-            setImageUrl(data.data.image);
+            try {
+                let data = await axios.post("http://localhost:3001/users/AUser", { userId: props.user._id });
+                setImageUrl(data.data.image);
             props.onImageUrlChange(data.data.image);
+            } catch (err) {
+                props.setUserInfo(undefined);
+                return
+            }
+            
         }
         fecthData();
     });
