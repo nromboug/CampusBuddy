@@ -56,6 +56,7 @@ const Profile = (props) => {
         if (response) {
             setStatus(response.statusText)
             setImageUrl(response.data.url)
+            props.setUserInfo({...props.user,image: response.data.url});
         }
     };
 
