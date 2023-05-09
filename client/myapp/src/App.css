@@ -57,7 +57,7 @@
 }
 
 .nav-link:hover {
-    font-weight: bold;
+    color: rgb(56, 69, 207);
 }
 
 h1 {
@@ -65,7 +65,7 @@ h1 {
 }
 
 .avatar {
-    width: 'auto';
+    width: auto;
 }
 
 .empty-div {
@@ -80,4 +80,19 @@ h1 {
 
 #hamburger {
     margin: 10px;
+}
+
+.show-body {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.error {
+    color: red;
+}
+
+.ReactModal__Overlay {
+    z-index: 9999;
 }
