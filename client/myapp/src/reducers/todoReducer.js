@@ -5,7 +5,7 @@ const initalState = [
 
 let copyState=null;
 
-const goalsReducer = (state = initalState, action) => {
+const todoReducer = (state = initalState, action) => {
   const {type, payload} = action;
 
   switch (type) {
@@ -38,9 +38,11 @@ const goalsReducer = (state = initalState, action) => {
         });
         
         return [...copyState];
+    case 'CLEAR_TODOS':
+          return [];
     default:
       return state;
   }
 };
 
-export default goalsReducer;
+export default todoReducer;

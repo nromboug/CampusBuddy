@@ -62,6 +62,14 @@ const addGoal = (userId,goal,target) => ({
     }
   });
 
+  const clearTodo = () => ({
+    type: 'CLEAR_TODOS'
+  });
+
+  const clearGoals = () => ({
+    type: 'CLEAR_GOALS'
+  });
+
   module.exports = {
     addGoal,
     setGoal,
@@ -71,5 +79,7 @@ const addGoal = (userId,goal,target) => ({
     addTodo,
     checkUncheckTodo,
     setTodo,
+    clearTodo,
+    clearGoals,
   };
   

@@ -11,10 +11,13 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import actions from '../actions';
+import {useDispatch} from 'react-redux';
 
 const BasicMenu = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const navigate = useNavigate();
+    const dispatch=useDispatch();
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -32,7 +35,10 @@ const BasicMenu = (props) => {
         const func = async () => {
             console.log('logout')
             props.setUserInfo(undefined);
+            props.onImageUrlChange(undefined);
             console.log(await axios.get('http://localhost:3001/users/logout'));
+            dispatch(actions.clearTodo());
+            dispatch(actions.clearGoals());
             navigate('/login');
         }
 

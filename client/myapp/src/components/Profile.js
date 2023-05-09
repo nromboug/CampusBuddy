@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core';
 import axios from 'axios';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 const Profile = (props) => {
   const [image, setImage] = useState({ preview: '', data: '' })
-  const [imageUrl, setImageUrl] = useState(props.user.image ? props.user.image : '')
+  const [imageUrl, setImageUrl] = useState('')
   const [status, setStatus] = useState('')
   // create state variables for each input
   const classes = useStyles();
@@ -56,6 +56,15 @@ const Profile = (props) => {
       setImageUrl(response.data.url)
     }
   };
+
+  useEffect(() =>{
+    async function fecthData(){
+      let data = await axios.post("http://localhost:3001/users/AUser",{userId: props.user._id});
+      setImageUrl(data.data.image);
+      props.onImageUrlChange(data.data.image);
+    }
+    fecthData();
+  });
 
   return (
     <div className={classes.root}>

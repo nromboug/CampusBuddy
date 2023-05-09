@@ -8,46 +8,54 @@ const { ObjectId } = require('mongodb');
 const redis=require('redis');
 const client=redis.createClient();
 client.connect().then(()=>{});
+const xss=require('xss');
 
 router.post('/allTodos', async (req, res) => {
     try{
+        req.body.id=xss(req.body.id);
         if(!req.body.id){
-            throw new Error("UserId is required");
+            return res.status(400).send("UserId is required");
         }
         let getUser=await theusers.getUserById(req.body.id);
         res.json(getUser.todo);
     }catch(e){
-        res.json(e);
+        return res.status(500).send(e);
     }
   });
 
   router.post('/', async (req, res) => {
     try{
+        req.body.id=xss(req.body.id);
+        req.body.userId=xss(req.body.id);
+        req.body.todo=xxs(req.body.todo);
+        req.body.completed=xxs(req.body.completed);
         if(!req.body.id || !req.body.userId){
-            throw new Error('UserId and TodoId are required');
+            return res.status(400).send("UserId and TodoId are required");
         }
         if(!req.body.todo || req.body.todo.trim().length===0){
-            throw new Error('Todo is required');
+            return res.status(400).send("Todo is required");
         }
         if (req.body.completed!==true && req.body.completed!==false) {
-            throw new Error('Completed needs to be a boolean value');
+            return res.status(400).send("Completed needs to be a boolean value");
         }
         let pushTodo=await thetodos.createTodoItem(req.body.userId,req.body.id,req.body.todo,req.body.completed);
         return res.json(pushTodo);
     }catch(e){
-        res.json(e);
+        return res.status(500).send(e);
     }
   });
 
   router.patch('/', async (req, res) => {
     try{
+        req.body.id=xss(req.body.id);
+        req.body.userId=xss(req.body.userId);
         if(!req.body.id){
-            throw new Error('TodoId is required');
+            return res.status(400).send("TodoId is required");
         }
-        let newUser=await thetodos.updateTodo(req.session.user._id,req.body.id);
+        let newUser=await thetodos.updateTodo(req.body.userId,req.body.id);
         return res.json(newUser);
     }catch(e){
-        res.status(400).json(e);
+        return res.status(500).send(e);
     }
   });
   

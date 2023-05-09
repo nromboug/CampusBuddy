@@ -22,6 +22,7 @@ import axios from 'axios';
 
 function App() {
     const [userInfo, setUserInfo] = useState(undefined);
+    const [imageUrl, setImageUrl] = useState('');
 
     useEffect((e) => {
         const logout = async () => {
@@ -30,17 +31,30 @@ function App() {
             } catch (e) {
                 console.log(e);
             }
+
         }
         logout();
     }, [])
+
+    useEffect(()=>{
+        async function fecthData(){
+            let data = await axios.post("http://localhost:3001/users/AUser",{userId: userInfo._id});
+            console.log(data.data.image);
+            setImageUrl(data.data.image);
+          }
+          fecthData();
+    },[userInfo,imageUrl]);
+    const handleUrlChange=(url)=>{
+        setImageUrl(url);
+    }
     return (
         <Router>
             <div className="App">
                 <header className="App-header">
                     <div className='title-bar'>
                         <div className='prof-stuff'>
-                            <Avatar className='avatar' src={userInfo && userInfo.image ? userInfo.image : noPfp} alt='profile picture' />
-                            <BasicMenu user={userInfo} setUserInfo={setUserInfo} />
+                            <Avatar className='avatar' src={imageUrl ? imageUrl : noPfp} alt='profile picture' />
+                            <BasicMenu user={userInfo} setUserInfo={setUserInfo} onImageUrlChange={handleUrlChange}/>
                         </div>
 
 
@@ -76,7 +90,7 @@ function App() {
                         <Route exact path='/login' element={<Login user={userInfo} setUserInfo={setUserInfo} />} />
                         <Route path='/' element={<AuthComponent user={userInfo} />}>
                             <Route path='/dashboard' element={<Dashboard user={userInfo} />} />
-                            <Route path='/profile' element={<Profile user={userInfo} />} />
+                            <Route path='/profile' element={<Profile user={userInfo} onImageUrlChange={handleUrlChange}/>} />
                             <Route path='/sessions' element={<Sessions user={userInfo} />} />
                         </Route>
                     </Routes>
