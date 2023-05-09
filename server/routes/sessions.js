@@ -179,7 +179,7 @@ router
         req.body.password = null;
       }
     } catch (e) {
-      return res.status(401).json({error: e});
+      return res.status(400).json({error: e});
     }
     //name, start, end, isPrivate, host, guests, password
     try {

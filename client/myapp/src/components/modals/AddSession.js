@@ -10,6 +10,7 @@ export default function AddSession({ isOpen, handleClose, currentUser, addSessio
   const [isPrivate, setPrivate] = useState(false);
   const [password, setPassword] = useState(null);
   const [guests, setGuests] = useState([]);
+  const [error, setError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,12 +27,13 @@ export default function AddSession({ isOpen, handleClose, currentUser, addSessio
           password: password
         });
         addSessionToState(data);
+        handleCloseAddModal();
       } catch (e) {
         console.log(e);
+        setError(true);
       }
     }
     createSession();
-    handleCloseAddModal();
   };
 
   const handleCloseAddModal = () => {
@@ -45,6 +47,7 @@ export default function AddSession({ isOpen, handleClose, currentUser, addSessio
       contentLabel="Add Session Modal"
     >
       <h2>Add Session</h2>
+      {error ? <p className='error'>Invalid session.</p> : null}
       <form onSubmit={handleSubmit}>
         <TextField
           label="Name"
