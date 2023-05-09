@@ -119,6 +119,7 @@ router
     if (Object.keys(updatedObject).length !== 0) {
       try {
         //req.params.id=xss(req.params.id);
+        await userData.setAchievement(req.session.user._id, 'joinSession');
         const updatedSession = await sessionData.updateSession(req.params.id,updatedObject);
         res.json(updatedSession);
       } catch (e) {
