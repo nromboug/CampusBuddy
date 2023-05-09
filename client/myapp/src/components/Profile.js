@@ -90,7 +90,7 @@ const Profile = (props) => {
                         Account Settings
                     </h2>
                     <form onSubmit={handleSubmit}>
-                        <label for='profile-picture' >Profile Picture: </label>
+                        <label htmlFor='profile-picture' >Profile Picture: </label>
                         <Input type='file' name='file' id='profile-picture' onChange={handleFileChange}></Input>
                         <Button type='submit'>Submit</Button>
                     </form>
