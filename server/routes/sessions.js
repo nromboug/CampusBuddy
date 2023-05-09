@@ -27,20 +27,27 @@ router
   })
   .put(async (req, res) => {
     // name, start, end, isPrivate, host, guests, password
-    const updatedData = xss(req.body);
+    //const updatedData = xss(req.body);
     try {
       req.params.id=xss(req.params.id);
-      req.params.id = validation.checkId(req.params.id, 'ID url param');
-      updatedData.name = validation.checkString(updatedData.name, 'Name');
-      updatedData.start = validation.checkDate(updatedData.start, 'Start Date');
-      updatedData.end = validation.checkDate(updatedData.end, 'End Date');
-      updatedData.isPrivate = validation.checkBoolean(updatedData.isPrivate);
-      updatedData.host = validation.checkString(updatedData.host, 'Host');
-      updatedData.guests = validation.checkStringArray(updatedData.guests, 'Guests');
+      req.body.name=xss(req.body.name);
+      req.body.start=xss(req.body.start);
+      req.body.end=xss(req.body.end);
+      req.body.isPrivate=xss(req.body.isPrivate);
+      req.body.host=xss(req.body.host);
+      req.body.guests=xss(req.body.guests);
+      req.body.password=xss(req.body.password);
+      req.body.id = validation.checkId(req.body.id, 'ID url param');
+      req.body.name = validation.checkString(req.body.name, 'Name');
+      req.body.start = validation.checkDate(req.body.start, 'Start Date');
+      req.body.end = validation.checkDate(req.body.end, 'End Date');
+      req.body.isPrivate = validation.checkBoolean(Boolean(req.body.isPrivate));
+      req.body.host= validation.checkString(req.body.host, 'Host');
+      //req.body.guests = validation.checkStringArray(req.body.guests, 'Guests');
       if (updatedData.isPrivate) {
-        updatedData.password = validation.checkString(updatedData.password, "Password");
+        req.body.password = validation.checkString(req.body.password, "Password");
       } else {
-        updatedData.password = null;
+        req.body.password = null;
       }
     } catch (e) {
       return res.status(400).json({error: e});
@@ -55,7 +62,7 @@ router
 
     try {
       req.params.id=xss(req.params.id);
-      const updatedSession = await sessionData.updateSession(req.params.id, updatedData);
+      const updatedSession = await sessionData.updateSession(req.params.id, req.body);
       res.json(updatedSession);
     } catch (e) {
       res.status(500).json({error: e});
@@ -63,50 +70,55 @@ router
   })
   .patch(async (req, res) => {
     // name, start, end, isPrivate, host, guests, password
-    const requestBody = xss(req.body);
+    //const requestBody = xss(req.body);
     let updatedObject = {};
     try {
       req.params.id=xss(req.params.id);
       req.params.id = validation.checkId(req.params.id, 'ID url param');
-      if (requestBody.name)
-        requestBody.name = validation.checkString(requestBody.name, 'Name');
-      if (requestBody.start)
-        requestBody.start = validation.checkDate(requestBody.start, 'Start Date');
-      if (requestBody.end)
-        requestBody.end = validation.checkDate(requestBody.end, 'End Date');
-      if (requestBody.isPrivate)
-        requestBody.isPrivate = validation.checkBoolean(requestBody.isPrivate);
-      if (requestBody.host)
-        requestBody.host = validation.checkString(requestBody.host, 'Host');
-      if (requestBody.guests)
-        requestBody.guests = validation.checkStringArray(requestBody.guests, 'Guests');
-      if (requestBody.password)
-        requestBody.password = validation.checkString(requestBody.password, "Password");
+      if (req.body.name)
+        req.body.name = validation.checkString(req.body.name, 'Name');
+      if (req.body.start)
+        //req.body.start=xss(req.body.start);
+        req.body.start = validation.checkDate(req.body.start, 'Start Date');
+      if (req.body.end)
+        //req.body.end = xss(req.body.end);
+        req.body.end = validation.checkDate(req.body.end, 'End Date');
+      if (req.body.isPrivate)
+        //req.body.isPrivate = xss(req.body.isPrivate);
+        req.body.isPrivate = validation.checkBoolean(Boolean(req.body.isPrivate));
+      if (req.body.host)
+        //req.body.host = xss(req.body.host);
+        req.body.host = validation.checkString(req.body.host, 'Host');
+      if (req.body.guests)
+        req.body.guests = validation.checkStringArray(req.body.guests, 'Guests');
+      if (req.body.password)
+        //req.body.password = xss(req.body.password);
+        req.body.password = validation.checkString(req.body.password, "Password");
     } catch (e) {
       return res.status(400).json({error: e});
     }
     try {
-      req.params.id=xss(req.params.id);
+      //req.params.id=xss(req.params.id);
       const old = await sessionData.readSession(req.params.id);
-      if (requestBody.name && requestBody.name !== old.name)
-        updatedObject.name = requestBody.name;
-      if (requestBody.start && requestBody.start !== old.start)
-        updatedObject.start = requestBody.start;
-      if (requestBody.end && requestBody.end !== old.end)
-        updatedObject.end = requestBody.end;
-      updatedObject.isPrivate = requestBody.isPrivate;
-      if (requestBody.host && requestBody.host !== old.host)
-        updatedObject.host = requestBody.host;
-      if (requestBody.password && requestBody.password !== old.password)
-        updatedObject.password = requestBody.password;
-      if (requestBody.guests && !arraysEqual(requestBody.guests, old.guests))
-        updatedObject.guests = requestBody.guests;
+      if (req.body.name && req.body.name !== old.name)
+        updatedObject.name = req.body.name;
+      if (req.body.start && req.body.start  !== old.start)
+        updatedObject.start = req.body.start;
+      if (req.body.end && req.body.end !== old.end)
+        updatedObject.end = req.body.end;
+      updatedObject.isPrivate = req.body.isPrivate;
+      if (req.body.host && req.body.host !== old.host)
+        updatedObject.host = req.body.host;
+      if (req.body.password && req.body.password  !== old.password)
+        updatedObject.password = req.body.password;
+      if (req.body.guests && !arraysEqual(req.body.guests, old.guests))
+        updatedObject.guests = req.body.guests;
     } catch (e) {
       return res.status(404).json({error: 'Session not found'});
     }
     if (Object.keys(updatedObject).length !== 0) {
       try {
-        req.params.id=xss(req.params.id);
+        //req.params.id=xss(req.params.id);
         const updatedSession = await sessionData.updateSession(req.params.id,updatedObject);
         res.json(updatedSession);
       } catch (e) {
@@ -153,26 +165,32 @@ router
     }
   })
   .post(async (req, res) => {
-    const rData = xss(req.body);
+    //const rData = xss(req.body);
     try {
-      rData.name = validation.checkString(rData.name, 'Name');
-      rData.start = validation.checkDate(rData.start, 'Start Date');
-      rData.end = validation.checkDate(rData.end, 'End Date');
-      rData.isPrivate = validation.checkBoolean(rData.isPrivate);
-      rData.host = validation.checkString(rData.host, 'Host');
+      req.body.name=xss(req.body.name);
+      req.body.start=xss(req.body.start);
+      req.body.end=xss(req.body.end);
+      req.body.isPrivate=xss(req.body.isPrivate);
+      req.body.host=xss(req.body.host)
+      req.body.name = validation.checkString(req.body.name, 'Name');
+      req.body.start = validation.checkDate(req.body.start, 'Start Date');
+      req.body.end = validation.checkDate(req.body.end, 'End Date');
+      req.body.isPrivate = validation.checkBoolean(Boolean(req.body.isPrivate));
+      req.body.host = validation.checkString(req.body.host, 'Host');
       //rData.guests = validation.checkStringArray(rData.guests, 'Guests');
-      if (rData.isPrivate) {
-        rData.password = validation.checkString(rData.password, "Password");
+      if (req.body.isPrivate) {
+        req.body.password=xss(req.body.password);
+        req.body.password = validation.checkString(req.body.password, "Password");
       } else {
-        rData.password = null;
+        req.body.password = null;
       }
     } catch (e) {
       return res.status(401).json({error: e});
     }
     //name, start, end, isPrivate, host, guests, password
     try {
-      const {name, start, end, isPrivate, host, password} = rData;
-      const newSession = await sessionData.createSession(name, start, end, isPrivate, host, password);
+      //const {name, start, end, isPrivate, host, password} = rData;
+      const newSession = await sessionData.createSession(req.body.name, req.body.start, req.body.end, req.body.isPrivate, req.body.host, req.body.password);
       await userData.setAchievement(req.session.user._id, 'createSession');
       res.json(newSession);
     } catch (e) {
