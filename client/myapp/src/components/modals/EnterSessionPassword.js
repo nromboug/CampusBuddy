@@ -43,6 +43,7 @@ export default function EnterSessionPassword({ isOpen, handleClose, session, add
       {message ? <p className="error">{message}</p> : null}
       <form onSubmit={handleSubmit}>
         <TextField
+          type="password"
           label="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

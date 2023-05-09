@@ -87,6 +87,7 @@ export default function AddSession({ isOpen, handleClose, currentUser, addSessio
           label="Is it Private?" />
         {isPrivate ? 
           <TextField
+            type="password"
             label="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
