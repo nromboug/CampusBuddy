@@ -91,7 +91,7 @@ const Profile = (props) => {
                     </h2>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor='profile-picture' >Profile Picture: </label>
-                        <Input type='file' name='file' id='profile-picture' onChange={handleFileChange}></Input>
+                        <Input type='file' name='file' id='profile-picture' onChange={handleFileChange} required></Input>
                         <Button type='submit'>Submit</Button>
                     </form>
                     {imageUrl && <img src={imageUrl} alt="uploaded image" />}
@@ -112,7 +112,7 @@ const Profile = (props) => {
                     </p>
                     <h3>
                         Profile Achievements:
-                        <Button onClick={refresh}>
+                        <Button aria-label="refresh" onClick={refresh}>
                         <RefreshIcon />
                         </Button>
                     </h3>
