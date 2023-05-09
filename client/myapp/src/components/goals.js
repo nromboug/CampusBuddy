@@ -38,12 +38,12 @@ function Goals(props) {
         </Typography>
         <Card sx={{ width: "100%", maxWidth: 350, margin: 'auto', marginTop: 2 }} variant="outlined">
           <Button onClick={()=>setBtnToggle(!addBtnToggle)}>{addBtnToggle ? "Cancel": "Add Goal"}</Button>
-          {addBtnToggle && <AddGoal user={props.user}/>}
+          {addBtnToggle && <AddGoal user={props.user} setUserInfo={props.setUserInfo} />}
         </Card>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             {allGoals.map((goal) => {
-              return <AGoal key={goal.id} goal={goal} user={props.user}/>
+              return <AGoal key={goal.id} goal={goal} user={props.user} setUserInfo={props.setUserInfo}/>
             })}
           </Grid>
         </Grid>
