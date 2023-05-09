@@ -20,7 +20,7 @@ function AddGoal(props) {
   const addNewGoal = async (e) => {
     e.preventDefault();
     const goalid = uuid();
-    const newGoal = { userId: props.user._id, id: goalid, goal: formData.goal, progress: 0, target: formData.target };
+    const newGoal = { userId: props.user._id, id: goalid, goal: formData.goal, progress: '0', target: formData.target };
     const {data} = await axios.post("http://localhost:3001/goals", newGoal);
     props.setUserInfo(data);
     dispatch(actions.addGoal(props.user._id,goalid,formData.goal,formData.target));

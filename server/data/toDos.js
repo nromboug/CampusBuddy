@@ -18,6 +18,7 @@ const createTodoItem = async (userId,id,todo,completed) => {
     let aUser = await userData.getUserById(userId);
     let updatedTodos = [...aUser.todo, {_id: id, todo: todo, completed: completed}];
     await usersCollection.updateOne({_id: userId}, {$set: {todo: updatedTodos}});
+    await userData.setAchievement(userId, 'makeTodo');
     let getNewUser=await userData.getUserById(userId);
     return getNewUser;
 }
@@ -46,6 +47,7 @@ const updateTodo=async(userId,id)=>{
           completed: updateComplete
         };
         await usersCollection.updateOne({ _id: userId }, { $set: { todo: allTodos} });
+        await userData.setAchievement(userId, 'finishTodo');
         let getNewUser = await userData.getUserById(userId);
         return getNewUser;
       }

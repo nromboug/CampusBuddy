@@ -28,6 +28,14 @@ let exportedMethods = {
                         day: date.getUTCDate()
                     },
                     image: null,
+                    achievements: {
+                        makeTodo: false,
+                        finishTodo: false,
+                        makeGoal: false,
+                        finishGoal: false,
+                        createSession: false,
+                        joinSession: false
+                    }
                 }
                 const newUser = await usersCollection.insertOne(holder);
                 console.log('user', newUser);
@@ -137,6 +145,18 @@ let exportedMethods = {
 
         const updated = await userCollection.updateOne({ _id: id }, {$set: {image: url}});
         return updated;
+    },
+    async setAchievement(id, achievement) {
+        const userCollection = await users();
+        const findUser = await userCollection.findOne({ _id: id });
+        if (!findUser)
+            throw "Error: User with given id cannot be found"
+
+        const oldAchvm = {...findUser.achievements};
+        oldAchvm[achievement] = true;
+        const updated = await userCollection.updateOne({ _id: id }, {$set: {achievements: oldAchvm}});
+        return updated;
+
     }
 
     // async updateUser(id, name, username, email) {
