@@ -18,7 +18,8 @@ export default function Sessions(props) {
     async function fetchData() {
       try {
         const {data} = await axios.get(`http://localhost:3001/sessions`);
-        setSessionsData(data);
+        // only show ongoing or future sessions
+        setSessionsData(data.filter((session) => new Date(session.end) > new Date()));
         setLoading(false);
       } catch (e) {
         console.log(e);
