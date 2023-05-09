@@ -20,6 +20,7 @@ const addGoal=async(userId,id,goal,progress,target)=>{
     let aUser = await userData.getUserById(userId);
     let updatedGoals = [...aUser.goals, {_id: id, goal: goal, progress: progress, target: target, completionDate: null}];
     await usersCollection.updateOne({_id: userId}, {$set: {goals: updatedGoals}});
+    await userData.setAchievement(userId, "makeGoal");
     let getNewUser=await userData.getUserById(userId);
     return getNewUser;
 }
