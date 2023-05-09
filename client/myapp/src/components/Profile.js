@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core';
 import axios from 'axios';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import {
     Box,
     Button,
@@ -57,6 +58,13 @@ const Profile = (props) => {
             setImageUrl(response.data.url)
         }
     };
+
+
+    const refresh = async () => {
+        let {data} = await axios.post("http://localhost:3001/users/AUser", { userId: props.user._id });
+        props.setUserInfo(data);
+    }
+
     useEffect(() => {
         async function fecthData() {
             let data = await axios.post("http://localhost:3001/users/AUser", { userId: props.user._id });
@@ -98,6 +106,9 @@ const Profile = (props) => {
                     </p>
                     <h3>
                         Profile Achievements:
+                        <Button onClick={refresh}>
+                        <RefreshIcon />
+                        </Button>
                     </h3>
                     <p>
                         Make a todo {props.user.achievements.makeTodo && <CheckCircleIcon style={{ color: 'green' }} />}

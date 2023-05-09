@@ -90,7 +90,7 @@ function App() {
                         <Route exact path='/login' element={<Login user={userInfo} setUserInfo={setUserInfo} />} />
                         <Route path='/' element={<AuthComponent user={userInfo} />}>
                         <Route path='/dashboard' element={<Dashboard user={userInfo} setUserInfo={setUserInfo} />} />
-                        <Route path='/profile' element={<Profile user={userInfo} onImageUrlChange={handleUrlChange}/>} />
+                        <Route path='/profile' element={<Profile user={userInfo} onImageUrlChange={handleUrlChange} setUserInfo={setUserInfo}/>} />
                         <Route path='/sessions' element={<Sessions user={userInfo} />} />
                         </Route>
                     </Routes>
