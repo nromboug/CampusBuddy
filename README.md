@@ -4,6 +4,7 @@
 ### Prerequisite 
 1. Ensure redis-server is running. 
 2. Install ImageMagick and make sure it's added onto the system path.
+3. Ensure MongoDB is running locally on its default port.
 
 #### Docker
 Make sure that the docker daemon is running on your machine. Docker Desktop offers a
