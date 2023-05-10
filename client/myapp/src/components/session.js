@@ -66,7 +66,7 @@ export default function Session(props) {
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={session._id}>
       <Card sx={{ maxWidth: 600, margin: 'auto', marginTop: 2 }}>
         <CardContent>
-          <Typography variant="h5" component="h2">
+          <Typography style={{ wordWrap: 'break-word' }} variant="h5" component="h2">
             {session.name}
           </Typography>
           <Typography color="textSecondary">

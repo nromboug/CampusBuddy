@@ -28,7 +28,7 @@ function Goal(props) {
     return (
         <Card key={props.goal.id} sx={{ maxWidth: 400, margin: 'auto', marginTop: 2 }}>
             <CardContent>
-                <Typography>
+                <Typography style={{ wordWrap: 'break-word' }}>
                     {props.goal.goal}
                 </Typography>
                 <div style={{ display: 'flex', alignItems: 'center' }}>

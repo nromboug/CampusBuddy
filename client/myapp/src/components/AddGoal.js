@@ -44,6 +44,7 @@ function AddGoal(props) {
           name="goal"
           label="Goal"
           value={formData.goal}
+          inputProps={{ maxlength: 250 }}
           onChange={(e) => handleGoalChange(e)}
           multiline
           required

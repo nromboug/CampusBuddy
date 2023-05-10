@@ -52,6 +52,7 @@ export default function AddSession({ isOpen, handleClose, currentUser, addSessio
         <TextField
           label="Name"
           value={name}
+          inputProps={{ maxlength: 100 }}
           onChange={(e) => setName(e.target.value)}
           required
           fullWidth
