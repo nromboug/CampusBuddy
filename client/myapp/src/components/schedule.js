@@ -98,7 +98,7 @@ export default function Schedule(props) {
               filteredSessions.map((session) => (
                 <Card sx={{ maxWidth: 600, margin: 'auto', marginTop: 2 }}>
                   <CardContent>
-                    <Typography variant="h5" component="h2">
+                    <Typography style={{ wordWrap: 'break-word' }} variant="h5" component="h2">
                       {session.name}
                     </Typography>
                     <Typography>

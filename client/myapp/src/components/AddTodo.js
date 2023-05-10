@@ -30,6 +30,7 @@ function AddTodo(props) {
           onChange={(e) => handleTodoChange(e)}
           multiline
           required
+          inputProps={{ maxlength: 100 }}
           margin="normal"
           helperText='Please enter a task to do.'
         />
