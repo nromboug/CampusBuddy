@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 const Profile = (props) => {
     const [image, setImage] = useState({ preview: '', data: '' })
     const [imageUrl, setImageUrl] = useState('')
-    const [status, setStatus] = useState('')
+    const [error, setError] = useState(false);
     // create state variables for each input
     const classes = useStyles();
     const handleFileChange = (e) => {
@@ -48,16 +48,20 @@ const Profile = (props) => {
         e.preventDefault()
         let formData = new FormData()
         formData.append('file', image.data)
-        const response = await axios.post('http://localhost:3001/upload', formData, {
+        try {
+            const response = await axios.post('http://localhost:3001/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        })
-        if (response) {
-            setStatus(response.statusText)
-            setImageUrl(response.data.url)
-            props.setUserInfo({...props.user,image: response.data.url});
-        }
+            })
+            if (response) {
+                setError(false);
+                setImageUrl(response.data.url)
+                props.setUserInfo({...props.user,image: response.data.url});
+            }
+        } catch (e) {
+            setError(true);
+        }    
     };
 
 
@@ -90,6 +94,7 @@ const Profile = (props) => {
                     <h2>
                         Account Settings
                     </h2>
+                    {error ? <p className='error'>Invalid file.</p> : null}
                     <form onSubmit={handleSubmit}>
                         <label htmlFor='profile-picture' >Profile Picture: </label>
                         <Input type='file' name='file' id='profile-picture' onChange={handleFileChange} required></Input>

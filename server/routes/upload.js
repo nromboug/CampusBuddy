@@ -7,6 +7,14 @@ const data = require('../data');
 const xss=require('xss');
 const theusers = data.users;
 
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(new Error('File type not supported. Only JPEG and PNG are allowed.'), false);
+  }
+};
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, './uploads')
@@ -17,7 +25,7 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, fileFilter });
 
 const resizeImage = (req, res, next) => {
   if (!req.file) {
