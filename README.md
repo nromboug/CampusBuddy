@@ -22,7 +22,7 @@ nice concise way to manage docker images/containers, and runs the daemon as well
 
 ### Server
 1. Obtain `adminKey.json` file and place it in `\CampusBuddy\server` (included in project submission).
-2. In `\CampusBuddy\server`, use `npm install` to install all dependencies.
+2. In `\CampusBuddy\server`, use `npm install --force` to install all dependencies.
 3. Use `npm run seed` to populate the database with initial data.
 4. Use `npm start` to start the server.
 5. The server should be hosted on `http://localhost:3001`.
